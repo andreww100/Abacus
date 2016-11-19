@@ -1,0 +1,49 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+
+    <!-- To be used from within Tomcat -->
+    <persistence-unit name="AbacusPUJTA" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>java:comp/env/jdbc/AbacusDB</jta-data-source>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+
+        <properties>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
+            <property name="javax.persistence.schema-generation.scripts.drop-target"
+                      value="C:\Dev\HSQLDB\data\Abacusdb\mydrop.ddl"/>
+            <property name="javax.persistence.schema-generation.scripts.create-target"
+                      value="C:\Dev\HSQLDB\data\Abacusdb\mycreate.ddl"/>
+            <property name="eclipselink.deploy-on-startup" value="true"/>
+
+            <property name="eclipselink.weaving" value="dynamic"/>
+        </properties>
+    </persistence-unit>
+
+    <!-- To be used Standalone -->
+    <persistence-unit name="AbacusPUNonJTA" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+
+        <properties>
+            <!-- Standalone must provide URL and User & Password -->
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:hsqldb:hsql://localhost:9001/Abacusdb"/>
+            <property name="javax.persistence.jdbc.user" value="SA"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
+            <property name="javax.persistence.schema-generation.scripts.drop-target"
+                      value="C:\Dev\HSQLDB\data\Abacusdb\mydrop.ddl"/>
+            <property name="javax.persistence.schema-generation.scripts.create-target"
+                      value="C:\Dev\HSQLDB\data\Abacusdb\mycreate.ddl"/>
+            <property name="eclipselink.deploy-on-startup" value="true"/>
+            <property name="eclipselink.weaving" value="dynamic"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>
