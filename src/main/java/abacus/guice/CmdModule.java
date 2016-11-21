@@ -1,4 +1,4 @@
-package abacus.main;
+package abacus.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.persist.jpa.JpaPersistModule;

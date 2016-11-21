@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="HSQLDB (Remote) - abacusdb@localhost">
+  <database-model serializer="dbm" rdbms="HSQLDB" format-version="2.6">
+    <database id="1" name="PUBLIC">
+      <visible>1</visible>
+    </database>
+    <schema id="2" parent="1" name="PUBLIC">
+      <visible>1</visible>
+    </schema>
+    <schema id="3" parent="1" name="INFORMATION_SCHEMA"/>
+    <schema id="4" parent="1" name="SYSTEM_LOBS"/>
+    <table id="5" parent="2" name="ACCOUNT"/>
+    <column id="6" parent="5" name="ID">
+      <mandatory>1</mandatory>
+      <data-type>INTEGER(32)|4</data-type>
+    </column>
+    <column id="7" parent="5" name="NAME">
+      <data-type>VARCHAR(255)|12</data-type>
+    </column>
+    <column id="8" parent="5" name="BASE_CUR">
+      <data-type>VARCHAR(3)|12</data-type>
+    </column>
+    <key id="9" parent="5" name="SYS_PK_10301">
+      <name-surrogate>1</name-surrogate>
+      <columns>ID</columns>
+      <primary>1</primary>
+    </key>
+  </database-model>
+</dataSource>

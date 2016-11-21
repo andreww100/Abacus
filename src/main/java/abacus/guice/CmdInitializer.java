@@ -1,4 +1,4 @@
-package abacus.main;
+package abacus.guice;
 
 import com.google.inject.persist.PersistService;
 import org.slf4j.Logger;
