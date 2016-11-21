@@ -6,6 +6,9 @@ import abacus.persist.entities.AccountEntity;
 import abacus.persist.embeddables.CurrencyCodeField;
 import org.mapstruct.Mapper;
 
+/**
+ * @see <a href="http://mapstruct.org/documentation/1.1/reference/html/index.html">MapStruct</a>
+ */
 @Mapper
 interface AccountMapper {
 
