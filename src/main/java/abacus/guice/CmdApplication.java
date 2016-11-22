@@ -1,5 +1,6 @@
 package abacus.guice;
 
+import abacus.jobs.StaticSetup;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -29,5 +30,8 @@ public class CmdApplication
         injector.getInstance(CmdInitializer.class);
 
         // Do Work!
+        StaticSetup setup = injector.getInstance(StaticSetup.class);
+        setup.perform();
+        //setup.check();
     }
 }

@@ -1,6 +1,7 @@
 package abacus.domain.account;
 
 import abacus.domain.money.CurrencyCode;
+import com.google.common.base.MoreObjects;
 
 public class Account {
 
@@ -30,5 +31,14 @@ public class Account {
 
     public void setBaseCurrency(CurrencyCode cur) {
         this.baseCur = cur;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("name", name)
+                .add("buseCur", baseCur)
+                .toString();
     }
 }

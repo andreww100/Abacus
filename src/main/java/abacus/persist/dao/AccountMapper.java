@@ -6,18 +6,22 @@ import abacus.persist.entities.AccountEntity;
 import abacus.persist.embeddables.CurrencyCodeField;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 /**
  * @see <a href="http://mapstruct.org/documentation/1.1/reference/html/index.html">MapStruct</a>
  */
 @Mapper
-interface AccountMapper {
+public interface AccountMapper {
 
-    CurrencyCodeField currencyCodeToCurrencyCodeField(CurrencyCode cur);
+    public CurrencyCodeField currencyCodeToCurrencyCodeField(CurrencyCode cur);
 
-    CurrencyCode currencyCodeFieldToCurrencyCode(CurrencyCodeField cur);
+    public CurrencyCode currencyCodeFieldToCurrencyCode(CurrencyCodeField cur);
 
-    Account accountEntityToAccount(AccountEntity account);
+    public Account accountEntityToAccount(AccountEntity account);
 
-    AccountEntity accountToAccountEntity(Account account);
+    //public List<Account> accountEntityListToAccountList(List<AccountEntity> account);
+
+    public AccountEntity accountToAccountEntity(Account account);
 
 }
