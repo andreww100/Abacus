@@ -32,6 +32,6 @@ public class CmdApplication
         // Do Work!
         StaticSetup setup = injector.getInstance(StaticSetup.class);
         setup.perform();
-        //setup.check();
+        setup.check();
     }
 }

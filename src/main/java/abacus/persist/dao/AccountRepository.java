@@ -44,11 +44,9 @@ public class AccountRepository {
         return mapper.accountEntityToAccount(row);
     }
 
-/*
     public List<Account> getAccounts() {
         TypedQuery<AccountEntity> query = em.createQuery("SELECT e FROM Account e",
                 AccountEntity.class);
         return mapper.accountEntityListToAccountList(query.getResultList());
     }
-    */
 }

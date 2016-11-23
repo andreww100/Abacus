@@ -12,16 +12,16 @@ import java.util.List;
  * @see <a href="http://mapstruct.org/documentation/1.1/reference/html/index.html">MapStruct</a>
  */
 @Mapper
-public interface AccountMapper {
+interface AccountMapper {
 
-    public CurrencyCodeField currencyCodeToCurrencyCodeField(CurrencyCode cur);
+    CurrencyCodeField currencyCodeToCurrencyCodeField(CurrencyCode cur);
 
-    public CurrencyCode currencyCodeFieldToCurrencyCode(CurrencyCodeField cur);
+    CurrencyCode currencyCodeFieldToCurrencyCode(CurrencyCodeField cur);
 
-    public Account accountEntityToAccount(AccountEntity account);
+    Account accountEntityToAccount(AccountEntity account);
 
-    //public List<Account> accountEntityListToAccountList(List<AccountEntity> account);
+    List<Account> accountEntityListToAccountList(List<AccountEntity> accounts);
 
-    public AccountEntity accountToAccountEntity(Account account);
+    AccountEntity accountToAccountEntity(Account account);
 
 }

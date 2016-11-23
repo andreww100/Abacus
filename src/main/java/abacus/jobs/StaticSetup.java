@@ -33,7 +33,6 @@ public class StaticSetup {
         }
     }
 
-    /*
     public void check()
     {
         for( Account a : repo.getAccounts())
@@ -41,5 +40,4 @@ public class StaticSetup {
             log.info(a.toString());
         }
     }
-    */
 }
