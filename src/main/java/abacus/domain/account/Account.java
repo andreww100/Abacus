@@ -3,6 +3,9 @@ package abacus.domain.account;
 import abacus.domain.money.CurrencyCode;
 import com.google.common.base.MoreObjects;
 
+/**
+ * An Account has entries posted against it
+ */
 public class Account {
 
     private long id;

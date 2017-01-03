@@ -25,11 +25,12 @@ public class AccountRepository {
 
 
     public AccountRepository() {
-        mapper = Mappers.getMapper(AccountMapper.class);
     }
 
     @Transactional
     public void createOrUpdateAccount(Account a) {
+        mapper = Mappers.getMapper(AccountMapper.class);
+
         // set the transaction and valid time and persist the account
         em.persist(mapper.accountToAccountEntity(a));
     }

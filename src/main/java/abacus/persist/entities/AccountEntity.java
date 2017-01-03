@@ -1,6 +1,6 @@
 package abacus.persist.entities;
 
-import abacus.persist.embeddables.CurrencyCodeField;
+import abacus.domain.money.CurrencyCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,12 +13,8 @@ public class AccountEntity implements Serializable
 
     private String name;
 
-    @Column
-    @AttributeOverrides({
-            @AttributeOverride(name="value",
-                    column=@Column(name="base_cur", length=3))
-    })
-    private CurrencyCodeField baseCur;
+    @Column(length = 3)
+    private CurrencyCode baseCur;
 
     public long getId() {
         return id;
@@ -36,11 +32,11 @@ public class AccountEntity implements Serializable
         this.name = name;
     }
 
-    public CurrencyCodeField getBaseCurrency() {
+    public CurrencyCode getBaseCurrency() {
         return baseCur;
     }
 
-    public void setBaseCurrency(CurrencyCodeField cur) {
+    public void setBaseCurrency(CurrencyCode cur) {
         this.baseCur = cur;
     }
 }

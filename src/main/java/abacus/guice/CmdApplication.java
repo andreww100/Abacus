@@ -1,5 +1,6 @@
 package abacus.guice;
 
+import abacus.jobs.Postie;
 import abacus.jobs.StaticSetup;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -33,5 +34,10 @@ public class CmdApplication
         StaticSetup setup = injector.getInstance(StaticSetup.class);
         setup.perform();
         setup.check();
+
+        Postie postie = injector.getInstance(Postie.class);
+        postie.perform();
+        postie.check();
+
     }
 }

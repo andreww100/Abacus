@@ -2,6 +2,7 @@ package abacus.jobs;
 
 import abacus.domain.account.Account;
 import abacus.domain.money.CurrencyCode;
+import abacus.domain.money.CurrencyCodeFactory;
 import abacus.persist.dao.AccountRepository;
 import com.google.inject.persist.Transactional;
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ public class StaticSetup {
             a.setId(i);
             String v = "A" + i;
             a.setName(v);
-            a.setBaseCurrency(new CurrencyCode("USD"));
+            a.setBaseCurrency(CurrencyCodeFactory.USD);
             repo.createOrUpdateAccount(a);
         }
     }

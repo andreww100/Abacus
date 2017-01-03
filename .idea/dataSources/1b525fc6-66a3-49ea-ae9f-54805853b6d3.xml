@@ -10,17 +10,36 @@
     <schema id="3" parent="1" name="INFORMATION_SCHEMA"/>
     <schema id="4" parent="1" name="SYSTEM_LOBS"/>
     <table id="5" parent="2" name="ACCOUNT"/>
-    <column id="6" parent="5" name="ID">
+    <table id="6" parent="2" name="POSTING"/>
+    <column id="7" parent="5" name="ID">
       <mandatory>1</mandatory>
       <data-type>BIGINT(64)|-5</data-type>
     </column>
-    <column id="7" parent="5" name="NAME">
+    <column id="8" parent="5" name="NAME">
       <data-type>VARCHAR(255)|12</data-type>
     </column>
-    <column id="8" parent="5" name="BASE_CUR">
+    <column id="9" parent="5" name="BASECUR">
       <data-type>VARCHAR(3)|12</data-type>
     </column>
-    <key id="9" parent="5" name="SYS_PK_10346">
+    <key id="10" parent="5" name="SYS_PK_10449">
+      <name-surrogate>1</name-surrogate>
+      <columns>ID</columns>
+      <primary>1</primary>
+    </key>
+    <column id="11" parent="6" name="ID">
+      <mandatory>1</mandatory>
+      <data-type>BIGINT(64)|-5</data-type>
+    </column>
+    <column id="12" parent="6" name="DESCRIPTION">
+      <data-type>VARCHAR(255)|12</data-type>
+    </column>
+    <column id="13" parent="6" name="AMOUNT">
+      <data-type>NUMERIC(10,2)|2</data-type>
+    </column>
+    <column id="14" parent="6" name="CURRENCY">
+      <data-type>VARCHAR(3)|12</data-type>
+    </column>
+    <key id="15" parent="6" name="SYS_PK_10445">
       <name-surrogate>1</name-surrogate>
       <columns>ID</columns>
       <primary>1</primary>

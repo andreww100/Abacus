@@ -1,29 +1,24 @@
 package abacus.domain.money;
 
+import javax.persistence.Embeddable;
+
 /**
- * ISO 4217 Currency Codes
- *
- * @author Andrew Ward
+ * ISO 4217 Currency Code
+ * <p>
+ * NOTE: Class is deliberately immutable (i.e., ISO code value cannot be modified)
  */
-public class CurrencyCode  {
+public class CurrencyCode {
 
     public static final int REQUIRED_CHARS = 3;
 
-    private String value;
-
-    public CurrencyCode() {
-    }
+    final private String value;
 
     public CurrencyCode(String value) {
-        setValue(value);
+        this.value = value;
     }
 
     public String getValue() {
         return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 
     @Override
