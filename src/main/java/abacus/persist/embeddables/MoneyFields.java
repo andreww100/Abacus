@@ -11,9 +11,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * ISO 3166-1 alpha-2 Country Codes
- *
- * @author Andrew Ward
+ * Amount and Currency columns
  */
 @Embeddable
 public class MoneyFields implements Serializable {
