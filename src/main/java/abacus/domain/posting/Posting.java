@@ -10,9 +10,12 @@ public class Posting {
 
     private long id;
 
+    private long accountId;
+
     private String description;
 
     private Money value;
+
 
     public long getId() {
         return id;
@@ -20,6 +23,14 @@ public class Posting {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
     }
 
     public String getDescription() {
@@ -42,6 +53,7 @@ public class Posting {
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("id", id)
+                .add("accountId", accountId)
                 .add("description", description)
                 .add("value", value)
                 .toString();

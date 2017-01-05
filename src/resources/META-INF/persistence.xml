@@ -41,6 +41,9 @@
                       value="C:\Dev\HSQLDB\data\abacusdb\mydrop.ddl"/>
             <property name="javax.persistence.schema-generation.scripts.create-target"
                       value="C:\Dev\HSQLDB\data\abacusdb\mycreate.ddl"/>
+
+            <property name="jdbc.persistence.logging"        value="true" />
+
             <property name="eclipselink.deploy-on-startup" value="true"/>
             <property name="eclipselink.weaving" value="dynamic"/>
         </properties>

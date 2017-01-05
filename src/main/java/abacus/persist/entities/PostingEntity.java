@@ -6,12 +6,26 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "Posting")
-public class PostingEntity implements Serializable
-{
+public class PostingEntity implements Serializable {
     @Id
     private long id;
 
-    @Column(length=255)
+    @Column
+    private long accountId;
+
+    /**
+     * Foreign key relationship from Posting to Account
+     * <p>
+     * NOTE: This attribute only exists to register the foreign key relationship
+     * and to enable lazy loading of the related Account.
+     * 1) To avoid creating another database column, we re-use the "accountId" name.
+     * 2) JPA demands that the duplicate attribute is non-insertable and non-updatable
+     */
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "accountId", insertable = false, updatable = false)
+    private AccountEntity account;
+
+    @Column(length = 255)
     private String description;
 
     @Embedded
@@ -39,5 +53,23 @@ public class PostingEntity implements Serializable
 
     public void setValue(MoneyFields value) {
         this.value = value;
+    }
+
+    public long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
+    }
+
+    public AccountEntity getAccount() {
+        return account;
+    }
+
+    public void setAccount(AccountEntity account) {
+        this.account = account;
+        /* The account entity reference is not persisted, so copy the id */
+        setAccountId(account.getId());
     }
 }

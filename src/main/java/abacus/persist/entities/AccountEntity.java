@@ -1,9 +1,11 @@
 package abacus.persist.entities;
 
 import abacus.domain.money.CurrencyCode;
+import abacus.domain.posting.Posting;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(name = "Account")
 public class AccountEntity implements Serializable

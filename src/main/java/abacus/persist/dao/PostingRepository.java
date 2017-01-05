@@ -1,9 +1,12 @@
 package abacus.persist.dao;
 
 import abacus.domain.posting.Posting;
+import abacus.persist.entities.AccountEntity;
 import abacus.persist.entities.PostingEntity;
 import com.google.inject.persist.Transactional;
 import org.mapstruct.factory.Mappers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -16,6 +19,8 @@ import java.util.List;
  */
 //@RequestScoped
 public class PostingRepository {
+
+    private Logger log = LoggerFactory.getLogger(PostingRepository.class);
 
     @javax.inject.Inject
     private EntityManager em;
@@ -40,6 +45,12 @@ public class PostingRepository {
                         PostingEntity.class);
         query.setParameter("postingId", id);
         PostingEntity row = query.getSingleResult();
+
+        // Test Lazy Load
+        AccountEntity a = row.getAccount();
+        log.info("Posting for account: " +
+                ((a != null) ? a.toString():"null"));
+
         return mapper.postingEntityToPosting(row);
     }
 

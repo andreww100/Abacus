@@ -15,13 +15,13 @@
       <mandatory>1</mandatory>
       <data-type>BIGINT(64)|-5</data-type>
     </column>
-    <column id="8" parent="5" name="NAME">
-      <data-type>VARCHAR(255)|12</data-type>
-    </column>
-    <column id="9" parent="5" name="BASECUR">
+    <column id="8" parent="5" name="BASECUR">
       <data-type>VARCHAR(3)|12</data-type>
     </column>
-    <key id="10" parent="5" name="SYS_PK_10449">
+    <column id="9" parent="5" name="NAME">
+      <data-type>VARCHAR(255)|12</data-type>
+    </column>
+    <key id="10" parent="5" name="SYS_PK_11176">
       <name-surrogate>1</name-surrogate>
       <columns>ID</columns>
       <primary>1</primary>
@@ -30,19 +30,28 @@
       <mandatory>1</mandatory>
       <data-type>BIGINT(64)|-5</data-type>
     </column>
-    <column id="12" parent="6" name="DESCRIPTION">
+    <column id="12" parent="6" name="ACCOUNTID">
+      <data-type>BIGINT(64)|-5</data-type>
+    </column>
+    <column id="13" parent="6" name="DESCRIPTION">
       <data-type>VARCHAR(255)|12</data-type>
     </column>
-    <column id="13" parent="6" name="AMOUNT">
+    <column id="14" parent="6" name="AMOUNT">
       <data-type>NUMERIC(10,2)|2</data-type>
     </column>
-    <column id="14" parent="6" name="CURRENCY">
+    <column id="15" parent="6" name="CURRENCY">
       <data-type>VARCHAR(3)|12</data-type>
     </column>
-    <key id="15" parent="6" name="SYS_PK_10445">
+    <key id="16" parent="6" name="SYS_PK_11172">
       <name-surrogate>1</name-surrogate>
       <columns>ID</columns>
       <primary>1</primary>
     </key>
+    <foreign-key id="17" parent="6" name="FK_POSTING_ACCOUNTID">
+      <columns>ACCOUNTID</columns>
+      <ref-key>~.ACCOUNT.SYS_PK_11176</ref-key>
+      <cascade-update-rule>no_action</cascade-update-rule>
+      <cascade-delete-rule>no_action</cascade-delete-rule>
+    </foreign-key>
   </database-model>
 </dataSource>

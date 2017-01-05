@@ -32,6 +32,7 @@ public class Postie  {
         for (int i = startPostingId; i <= startPostingId + 5; i++) {
             Posting p = new Posting();
             p.setId(i);
+            p.setAccountId(i);
             String v = "A" + i;
             p.setValue(new Money(new BigDecimal(i), CurrencyCodeFactory.USD));
             p.setDescription("FOO " + v);
@@ -46,5 +47,7 @@ public class Postie  {
         {
             log.info(p.toString());
         }
+
+        log.info(repo.getPosting(1000).toString());
     }
 }

@@ -6,8 +6,8 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="EclipseLink" />
         <datasource-mapping>
-          <factory-entry name="AbacusPUJTA" />
-          <factory-entry name="AbacusPUNonJTA" />
+          <factory-entry name="AbacusPUJTA" value="1b525fc6-66a3-49ea-ae9f-54805853b6d3" />
+          <factory-entry name="AbacusPUNonJTA" value="1b525fc6-66a3-49ea-ae9f-54805853b6d3" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/resources/META-INF/persistence.xml" />
       </configuration>
