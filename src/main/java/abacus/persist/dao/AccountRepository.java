@@ -45,6 +45,16 @@ public class AccountRepository {
         return mapper.accountEntityToAccount(row);
     }
 
+    public AccountEntity getAccount2(long id) {
+        assert (em != null);
+        TypedQuery<AccountEntity> query =
+                em.createQuery("SELECT a from Account a WHERE a.id = :accountId",
+                        AccountEntity.class);
+        query.setParameter("accountId", id);
+        return query.getSingleResult();
+    }
+
+
     public List<Account> getAccounts() {
         TypedQuery<AccountEntity> query = em.createQuery("SELECT e FROM Account e",
                 AccountEntity.class);

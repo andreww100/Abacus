@@ -1,7 +1,9 @@
 package abacus.persist.dao;
 
+import abacus.domain.posting.Balance;
 import abacus.domain.posting.Posting;
 import abacus.persist.entities.AccountEntity;
+import abacus.persist.entities.BalanceEntity;
 import abacus.persist.entities.PostingEntity;
 import com.google.inject.persist.Transactional;
 import org.mapstruct.factory.Mappers;
@@ -28,6 +30,10 @@ public class PostingRepository {
     // MapStruct Mapper
     private PostingMapper mapper;
 
+    @javax.inject.Inject
+    private AccountRepository repoA;
+
+
     public PostingRepository() {
         mapper = Mappers.getMapper(PostingMapper.class);
     }
@@ -47,9 +53,17 @@ public class PostingRepository {
         PostingEntity row = query.getSingleResult();
 
         // Test Lazy Load
+
+        try {
+            //row.state("accountid");
+            row.geVH();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         AccountEntity a = row.getAccount();
         log.info("Posting for account: " +
-                ((a != null) ? a.toString():"null"));
+                ((a != null) ? a.toString() : "null"));
 
         return mapper.postingEntityToPosting(row);
     }
@@ -59,4 +73,38 @@ public class PostingRepository {
                 PostingEntity.class);
         return mapper.postingEntityListToPostingList(query.getResultList());
     }
+
+    @Transactional
+    public void createOrUpdateBalance(Balance b) {
+        // set the transaction and valid time and persist the posting
+        BalanceEntity row = mapper.balanceToBalanceEntity(b);
+        AccountEntity ae = repoA.getAccount2(b.getAccountId());
+        row.setAccount(ae);
+        em.persist(row);
+    }
+
+    public Balance getBalance(long id) {
+        assert (em != null);
+        TypedQuery<BalanceEntity> query =
+                em.createQuery("SELECT b from Balance b WHERE b.id = :accountId",
+                        BalanceEntity.class);
+        query.setParameter("accountId", id);
+        BalanceEntity row = query.getSingleResult();
+
+        if (row != null) {
+            // Test Lazy Load
+            AccountEntity a = row.getAccount();
+            log.info("Balance for account: " +
+                    ((a != null) ? a.toString() : "null"));
+        }
+
+        return mapper.balanceEntityToBalance(row);
+    }
+
+    public List<Balance> getBalances() {
+        TypedQuery<BalanceEntity> query = em.createQuery("SELECT b FROM Balance b",
+                BalanceEntity.class);
+        return mapper.balanceEntityListTobalanceList(query.getResultList());
+    }
+
 }

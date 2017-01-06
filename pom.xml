@@ -10,6 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.outputDirectory>c:\dev\ubs\</project.build.outputDirectory>
     </properties>
 
     <dependencies>
@@ -56,10 +57,17 @@
             <version>1.1.0.Final</version>
         </dependency>
         <!-- JPA - https://mvnrepository.com/artifact/org.eclipse.persistence/eclipselink -->
+        <!-- https://mvnrepository.com/artifact/org.eclipse.persistence/org.eclipse.persistence.jpa -->
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
-            <artifactId>eclipselink</artifactId>
+            <artifactId>org.eclipse.persistence.jpa</artifactId>
             <version>2.6.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/de.empulse.eclipselink/staticweave-maven-plugin -->
+        <dependency>
+            <groupId>de.empulse.eclipselink</groupId>
+            <artifactId>staticweave-maven-plugin</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <!-- DATABASE - https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
         <dependency>
@@ -87,6 +95,31 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+                <plugin>
+                    <groupId>de.empulse.eclipselink</groupId>
+                    <artifactId>staticweave-maven-plugin</artifactId>
+                    <version>1.0.0</version>
+                    <executions>
+                        <execution>
+                            <phase>process-classes</phase>
+                            <goals>
+                                <goal>weave</goal>
+                            </goals>
+                            <configuration>
+                                <persistenceXMLLocation>META-INF/persistence.xml</persistenceXMLLocation>
+                                <logLevel>FINE</logLevel>
+                            </configuration>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.eclipse.persistence</groupId>
+                            <artifactId>org.eclipse.persistence.jpa</artifactId>
+                            <version>2.6.4</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
         </plugins>
     </build>
 

@@ -1,8 +1,10 @@
 package abacus.persist.dao;
 
 import abacus.domain.money.Money;
+import abacus.domain.posting.Balance;
 import abacus.domain.posting.Posting;
 import abacus.persist.embeddables.MoneyFields;
+import abacus.persist.entities.BalanceEntity;
 import abacus.persist.entities.PostingEntity;
 import org.mapstruct.Mapper;
 
@@ -24,4 +26,9 @@ public interface PostingMapper {
 
     PostingEntity postingToPostingEntity(Posting posting);
 
+    Balance balanceEntityToBalance(BalanceEntity balance);
+
+    List<Balance> balanceEntityListTobalanceList(List<BalanceEntity> balances);
+
+    BalanceEntity balanceToBalanceEntity(Balance balance);
 }

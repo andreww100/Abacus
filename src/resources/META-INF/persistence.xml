@@ -45,7 +45,7 @@
             <property name="jdbc.persistence.logging"        value="true" />
 
             <property name="eclipselink.deploy-on-startup" value="true"/>
-            <property name="eclipselink.weaving" value="dynamic"/>
+            <property name="eclipselink.weaving" value="static"/>
         </properties>
     </persistence-unit>
 
