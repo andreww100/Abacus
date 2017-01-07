@@ -63,12 +63,6 @@
             <artifactId>org.eclipse.persistence.jpa</artifactId>
             <version>2.6.4</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/de.empulse.eclipselink/staticweave-maven-plugin -->
-        <dependency>
-            <groupId>de.empulse.eclipselink</groupId>
-            <artifactId>staticweave-maven-plugin</artifactId>
-            <version>1.0.0</version>
-        </dependency>
         <!-- DATABASE - https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
         <dependency>
             <groupId>org.hsqldb</groupId>
@@ -96,30 +90,30 @@
                 </configuration>
             </plugin>
 
-                <plugin>
-                    <groupId>de.empulse.eclipselink</groupId>
-                    <artifactId>staticweave-maven-plugin</artifactId>
-                    <version>1.0.0</version>
-                    <executions>
-                        <execution>
-                            <phase>process-classes</phase>
-                            <goals>
-                                <goal>weave</goal>
-                            </goals>
-                            <configuration>
-                                <persistenceXMLLocation>META-INF/persistence.xml</persistenceXMLLocation>
-                                <logLevel>FINE</logLevel>
-                            </configuration>
-                        </execution>
-                    </executions>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.eclipse.persistence</groupId>
-                            <artifactId>org.eclipse.persistence.jpa</artifactId>
-                            <version>2.6.4</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
+            <plugin>
+                <groupId>de.empulse.eclipselink</groupId>
+                <artifactId>staticweave-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>weave</goal>
+                        </goals>
+                        <configuration>
+                            <persistenceXMLLocation>META-INF/persistence.xml</persistenceXMLLocation>
+                            <logLevel>FINE</logLevel>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.eclipse.persistence</groupId>
+                        <artifactId>org.eclipse.persistence.jpa</artifactId>
+                        <version>2.6.4</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
 

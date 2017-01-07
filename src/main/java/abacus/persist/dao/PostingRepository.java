@@ -55,8 +55,7 @@ public class PostingRepository {
         // Test Lazy Load
 
         try {
-            //row.state("accountid");
-            row.geVH();
+            row.state("accountid");
         } catch (Exception e) {
             e.printStackTrace();
         }

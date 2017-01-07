@@ -94,7 +94,7 @@ public class PostingEntity implements Serializable {
         log.info(ret.toString());
 
         method = tClass.getMethod("_persistence_get_account_vh", new Class[]{});
-        log.info("calling with 'val2'");
+        log.info("calling with:");
         ret = method.invoke(this, new Object[]{});
         ValueHolder vh = (ValueHolder) ret;
         log.info(vh.toString());
