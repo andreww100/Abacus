@@ -20,9 +20,6 @@ public class BalanceEntity implements Serializable {
     @Id
     private long id;
 
-    @Transient
-    private long accounntId;
-
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "accountId")
     private AccountEntity account;
@@ -54,11 +51,7 @@ public class BalanceEntity implements Serializable {
         this.account = account;
     }
 
-    public long getAccounntId() {
+    public long getAccountId() {
         return getAccount().getId();
-    }
-
-    public void setAccounntId(long accounntId) {
-        this.accounntId = accounntId;
     }
 }

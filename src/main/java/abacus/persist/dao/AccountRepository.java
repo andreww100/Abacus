@@ -45,7 +45,15 @@ public class AccountRepository {
         return mapper.accountEntityToAccount(row);
     }
 
-    public AccountEntity getAccount2(long id) {
+    public List<Account> getAccounts() {
+        TypedQuery<AccountEntity> query = em.createQuery("SELECT e FROM Account e",
+                AccountEntity.class);
+        return mapper.accountEntityListToAccountList(query.getResultList());
+    }
+
+    // package
+
+    AccountEntity getAccountEntity(long id) {
         assert (em != null);
         TypedQuery<AccountEntity> query =
                 em.createQuery("SELECT a from Account a WHERE a.id = :accountId",
@@ -54,10 +62,9 @@ public class AccountRepository {
         return query.getSingleResult();
     }
 
-
-    public List<Account> getAccounts() {
-        TypedQuery<AccountEntity> query = em.createQuery("SELECT e FROM Account e",
-                AccountEntity.class);
-        return mapper.accountEntityListToAccountList(query.getResultList());
+    AccountEntity getAccountEntityRef(long id) {
+        assert (em != null);
+        return em.getReference(AccountEntity.class, id);
     }
+
 }

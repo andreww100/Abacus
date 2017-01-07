@@ -28,7 +28,7 @@ public interface PostingMapper {
 
     Balance balanceEntityToBalance(BalanceEntity balance);
 
-    List<Balance> balanceEntityListTobalanceList(List<BalanceEntity> balances);
+    List<Balance> balanceEntityListToBalanceList(List<BalanceEntity> balances);
 
     BalanceEntity balanceToBalanceEntity(Balance balance);
 }

@@ -26,7 +26,7 @@ public class StaticSetup {
 
         for (int i = startAccountId; i <= startAccountId + 5; i++) {
             Account a = new Account();
-            a.setId(i);
+            //a.setId(i);
             String v = "A" + i;
             a.setName(v);
             a.setBaseCurrency(CurrencyCodeFactory.USD);

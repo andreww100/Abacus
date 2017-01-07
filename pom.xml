@@ -10,7 +10,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.outputDirectory>c:\dev\ubs\</project.build.outputDirectory>
     </properties>
 
     <dependencies>

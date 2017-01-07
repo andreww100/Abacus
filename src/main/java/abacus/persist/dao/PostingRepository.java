@@ -40,8 +40,13 @@ public class PostingRepository {
 
     @Transactional
     public void createOrUpdatePosting(Posting p) {
+        PostingEntity row = mapper.postingToPostingEntity(p);
+
+        AccountEntity ae = repoA.getAccountEntityRef(p.getAccountId());
+        row.setAccount(ae);
+
         // set the transaction and valid time and persist the posting
-        em.persist(mapper.postingToPostingEntity(p));
+        em.persist(row);
     }
 
     public Posting getPosting(long id) {
@@ -77,7 +82,10 @@ public class PostingRepository {
     public void createOrUpdateBalance(Balance b) {
         // set the transaction and valid time and persist the posting
         BalanceEntity row = mapper.balanceToBalanceEntity(b);
-        AccountEntity ae = repoA.getAccount2(b.getAccountId());
+        AccountEntity ae;
+        //ae = repoA.getAccountEntity(b.getAccountId());
+        ae = repoA.getAccountEntityRef(b.getAccountId());
+
         row.setAccount(ae);
         em.persist(row);
     }
@@ -103,7 +111,7 @@ public class PostingRepository {
     public List<Balance> getBalances() {
         TypedQuery<BalanceEntity> query = em.createQuery("SELECT b FROM Balance b",
                 BalanceEntity.class);
-        return mapper.balanceEntityListTobalanceList(query.getResultList());
+        return mapper.balanceEntityListToBalanceList(query.getResultList());
     }
 
 }

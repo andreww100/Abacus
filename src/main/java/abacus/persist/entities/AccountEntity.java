@@ -3,6 +3,9 @@ package abacus.persist.entities;
 import abacus.domain.money.CurrencyCode;
 import abacus.domain.posting.Posting;
 import com.google.common.base.MoreObjects;
+import com.google.common.hash.HashCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,7 +14,13 @@ import java.util.List;
 @Entity(name = "Account")
 public class AccountEntity implements Serializable
 {
+    @Transient
+    private Logger log = LoggerFactory.getLogger(AccountEntity.class);
+
     @Id
+    @TableGenerator(name="IDGenAccount", allocationSize=1,initialValue =1000)
+    @GeneratedValue(strategy=GenerationType.TABLE, generator="IDGenAccount")
+    //@Access(AccessType.PROPERTY)
     private long id;
 
     private String name;
@@ -19,12 +28,17 @@ public class AccountEntity implements Serializable
     @Column(length = 3)
     private CurrencyCode baseCur;
 
+    @Access(AccessType.PROPERTY)
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
+
         this.id = id;
+
+        this.id = HashCode.fromLong(id).asLong();
+
     }
 
     public String getName() {
@@ -51,4 +65,5 @@ public class AccountEntity implements Serializable
                 .add("baseCur", baseCur)
                 .toString();
     }
+
 }
