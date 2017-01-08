@@ -57,17 +57,12 @@ public class PostingRepository {
         query.setParameter("postingId", id);
         PostingEntity row = query.getSingleResult();
 
-        // Test Lazy Load
-
-        try {
-            row.state("accountid");
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (row != null) {
+            // Test Lazy Load
+            this.em.clear();
+            log.info("Test Lazy Load: Retrieve Id only: " + row.getAccountId());
+            log.info("Test Lazy Load: Retrieve full Account record: " + row.getAccount().toString());
         }
-
-        AccountEntity a = row.getAccount();
-        log.info("Posting for account: " +
-                ((a != null) ? a.toString() : "null"));
 
         return mapper.postingEntityToPosting(row);
     }
@@ -99,10 +94,10 @@ public class PostingRepository {
         BalanceEntity row = query.getSingleResult();
 
         if (row != null) {
+            this.em.clear();
             // Test Lazy Load
-            AccountEntity a = row.getAccount();
-            log.info("Balance for account: " +
-                    ((a != null) ? a.toString() : "null"));
+            log.info("Test Lazy Load: Retrieve Id only: " + row.getAccountId());
+            log.info("Test Lazy Load: Retrieve full Account record: " + row.getAccount().toString());
         }
 
         return mapper.balanceEntityToBalance(row);

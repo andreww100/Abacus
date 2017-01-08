@@ -1,4 +1,4 @@
-package abacus.persist.sequences;
+package abacus.persist.custom;
 
 import org.eclipse.persistence.config.SessionCustomizer;
 import org.eclipse.persistence.internal.databaseaccess.Accessor;
@@ -11,19 +11,19 @@ import java.util.Vector;
 
 /**
  */
-public class HashSequence extends Sequence implements SessionCustomizer {
+public class UUIDSequence extends Sequence implements SessionCustomizer {
 
-    public HashSequence() {
+    public UUIDSequence() {
         super();
     }
 
-    public HashSequence(String name) {
+    public UUIDSequence(String name) {
         super(name);
     }
 
     @Override
     public void customize(Session session) throws Exception {
-        UUIDSequence sequence = new UUIDSequence("system-hash");
+        UUIDSequence sequence = new UUIDSequence("system-uuid");
 
         session.getLogin().addSequence(sequence);
     }
@@ -35,7 +35,7 @@ public class HashSequence extends Sequence implements SessionCustomizer {
 
     @Override
     public boolean shouldUseTransaction() {
-        return true;
+        return false;
     }
 
     @Override

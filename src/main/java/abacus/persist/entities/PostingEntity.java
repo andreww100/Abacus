@@ -2,6 +2,7 @@ package abacus.persist.entities;
 
 import abacus.jobs.Postie;
 import abacus.persist.embeddables.MoneyFields;
+import com.google.common.base.MoreObjects;
 import org.eclipse.persistence.indirection.ValueHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,23 +65,13 @@ public class PostingEntity implements Serializable {
         this.account = account;
     }
 
-    public void state(String var1) throws Exception
-    {
-        Class tClass = getClass();
-
-        // public void _persistence_checkFetched(String var1) {
-
-        Method method = tClass.getMethod("_persistence_isAttributeFetched", new Class[] { String.class });
-        log.info("calling with 'val2'");
-        Object ret = method.invoke(this, new Object[] { var1 });
-
-        log.info(ret.toString());
-
-        method = tClass.getMethod("_persistence_get_account_vh", new Class[]{});
-        log.info("calling with:");
-        ret = method.invoke(this, new Object[]{});
-        ValueHolder vh = (ValueHolder) ret;
-        log.info(vh.toString());
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("account", account)
+                .add("description", description)
+                .add("value", value)
+                .toString();
     }
-
 }

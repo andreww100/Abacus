@@ -1,6 +1,7 @@
 package abacus.persist.entities;
 
 import abacus.persist.embeddables.MoneyFields;
+import com.google.common.base.MoreObjects;
 import org.eclipse.persistence.indirection.ValueHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,5 +54,14 @@ public class BalanceEntity implements Serializable {
 
     public long getAccountId() {
         return getAccount().getId();
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("account", account)
+                .add("value", value)
+                .toString();
     }
 }

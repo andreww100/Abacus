@@ -45,10 +45,10 @@
             <property name="jdbc.persistence.logging" value="true" />
 
             <property name="eclipselink.deploy-on-startup" value="true"/>
-            <property name="eclipselink.session.customizer" value="abacus.persist.sequences.CustomAbstractSessionLog"/>
+            <property name="eclipselink.session.customizer" value="abacus.persist.custom.SLF4JLog"/>
 
             <property name="eclipselink.logging.level.sql" value="FINEST" />
-            <property name="eclipselink.logging.level" value="FINEST" />
+            <property name="eclipselink.logging.level" value="FINE" />
             <property name="eclipselink.logging.level.cache" value="FINEST" />
         </properties>
     </persistence-unit>
