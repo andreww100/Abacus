@@ -1,9 +1,11 @@
 package abacus.persist.custom;
 
 import org.eclipse.persistence.config.SessionCustomizer;
+import org.eclipse.persistence.config.StructConverterType;
 import org.eclipse.persistence.logging.AbstractSessionLog;
 import org.eclipse.persistence.logging.SessionLog;
 import org.eclipse.persistence.logging.SessionLogEntry;
+import org.eclipse.persistence.queries.ReadObjectQuery;
 import org.eclipse.persistence.sessions.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,7 +78,7 @@ public class SLF4JLog extends AbstractSessionLog implements SessionLog, SessionC
             if (sessionLogEntry.getParameters() != null) {
                 for (Object param : sessionLogEntry.getParameters()) {
                     if (param != null) {
-                        builder.append(" > " + param.toString());
+                        builder.append(" > " + unpack(param));
                     }
                 }
             }
@@ -90,6 +92,19 @@ public class SLF4JLog extends AbstractSessionLog implements SessionLog, SessionC
             builder.append("source:=" + sessionLogEntry.getSourceClassName() + "#" + sessionLogEntry.getSourceMethodName());
         }
         return builder.toString();
+    }
+
+    protected String unpack(Object param)
+    {
+        String ret = "null";
+
+        if (param != null) {
+            ret = param.toString();
+            if (param instanceof ReadObjectQuery) {
+                ret = ret + " & " + unpack(((ReadObjectQuery) param).getSelectionObject());
+            }
+        }
+        return ret;
     }
 
     /**
