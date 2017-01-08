@@ -23,60 +23,61 @@ public class SLF4JLog extends AbstractSessionLog implements SessionLog, SessionC
         aSession.setSessionLog(aCustomLogger);
     }
 
-    /* @see org.eclipse.persistence.logging.AbstractSessionLog#log(org.eclipse.persistence.logging.SessionLogEntry)
+    /**
+     * @see org.eclipse.persistence.logging.AbstractSessionLog#log(org.eclipse.persistence.logging.SessionLogEntry)
      */
     @Override
     public void log(SessionLogEntry sessionLogEntry) {
 
-        switch (sessionLogEntry.getLevel()) {
-            case OFF:
-                break;
+        // Only log events we are interested in
+        if (isInteresting(sessionLogEntry.getMessage())) {
+            String message = format(sessionLogEntry);
+            // Map EclipseLink levels to SLF4J levels
+            switch (sessionLogEntry.getLevel()) {
+                case SEVERE:
+                    log.error(message);
+                    break;
 
-            case SEVERE:
-                log.error(helper(sessionLogEntry));
-                break;
+                case WARNING:
+                    log.warn(message);
+                    break;
 
-            case WARNING:
-                log.warn(helper(sessionLogEntry));
-                break;
+                case INFO:
+                case CONFIG:
+                case ALL:
+                    log.info(message);
+                    break;
 
-            case INFO:
-            case CONFIG:
-            case FINE:
-            case FINER:
-            case FINEST:
-            case ALL:
-                if (isInteresting(sessionLogEntry.getMessage())) {
-                    log.info(helper(sessionLogEntry));
-                }
+                case FINE:
+                case FINER:
+                case FINEST:
+                    log.debug(message);
+                    break;
+
+                case OFF:
+                    break;
+            }
         }
     }
 
-
     /**
-     * public AbstractSession getSession() {
-     * public Accessor getConnection() {
-     * <p>
-     * public Object[] getParameters() {
-     * public String getNameSpace() {
-     * <p>
-     * public boolean shouldTranslate() {
-     * public int getLevel() {
      **/
-    protected String helper(SessionLogEntry sessionLogEntry) {
+    protected String format(SessionLogEntry sessionLogEntry) {
         StringBuilder builder = new StringBuilder();
 
         // Level
         builder.append("[" + sessionLogEntry.getLevel() + "]");
 
-        // Message
+        // Unpack the message and its parameters
         if (sessionLogEntry.hasMessage()) {
             String message = sessionLogEntry.getMessage();
             builder.append(message);
 
-            if ("execute_query".equalsIgnoreCase(message)) {
+            if (sessionLogEntry.getParameters() != null) {
                 for (Object param : sessionLogEntry.getParameters()) {
-                    builder.append(" > " + param);
+                    if (param != null) {
+                        builder.append(" > " + param.toString());
+                    }
                 }
             }
         }
@@ -91,6 +92,12 @@ public class SLF4JLog extends AbstractSessionLog implements SessionLog, SessionC
         return builder.toString();
     }
 
+    /**
+     * Filter out messages that we are not interested in
+     *
+     * @param message
+     * @return true if we wish to log
+     */
     protected boolean isInteresting(String message) {
         boolean interesting = true;
 
@@ -98,6 +105,13 @@ public class SLF4JLog extends AbstractSessionLog implements SessionLog, SessionC
             case "acquire_connection":
             case "release_connection":
             case "register_new_for_persist":
+            case "dbPlatformHelper_regExprDbPlatform":
+            case "acquire_unit_of_work_with_argument":
+            case "release_unit_of_work":
+            case "client_acquired":
+            case "client_released":
+            case "initialize_identitymaps":
+            case "register_existing":
                 interesting = false;
                 break;
         }

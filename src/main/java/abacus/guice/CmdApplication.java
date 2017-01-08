@@ -17,6 +17,8 @@ public class CmdApplication
 
     public static void main(String[] args)
     {
+        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+
         injector = Guice.createInjector(new CmdModule());
 
         CmdApplication application = injector.getInstance(CmdApplication.class);

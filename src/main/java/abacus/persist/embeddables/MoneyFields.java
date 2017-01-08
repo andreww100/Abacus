@@ -2,6 +2,7 @@ package abacus.persist.embeddables;
 
 import abacus.domain.money.CurrencyCode;
 import abacus.persist.converters.CurrencyCodeConverter;
+import com.google.common.base.MoreObjects;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -44,5 +45,13 @@ public class MoneyFields implements Serializable {
 
     public void setCurrency(CurrencyCode currency) {
         this.currency = currency;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("amount", amount)
+                .add("currency", currency)
+                .toString();
     }
 }
