@@ -2,6 +2,7 @@ package abacus.persist.dao;
 
 import abacus.domain.posting.Balance;
 import abacus.domain.posting.Posting;
+import abacus.persist.converters.LocalDateAttributeConverter;
 import abacus.persist.entities.AccountEntity;
 import abacus.persist.entities.BalanceEntity;
 import abacus.persist.entities.PostingEntity;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -85,12 +87,14 @@ public class PostingRepository {
         em.persist(row);
     }
 
-    public Balance getBalance(long id) {
+    public Balance getBalance(long accountId, LocalDate bizDate) {
         assert (em != null);
         TypedQuery<BalanceEntity> query =
-                em.createQuery("SELECT b from Balance b WHERE b.id = :accountId",
+                em.createQuery("SELECT b from Balance b WHERE b.accountId = :accountId and b.bizDate = :bizDate",
                         BalanceEntity.class);
-        query.setParameter("accountId", id);
+        query.setParameter("accountId", accountId);
+        query.setParameter("bizDate", new LocalDateAttributeConverter().convertToDatabaseColumn(bizDate));
+
         BalanceEntity row = query.getSingleResult();
 
         if (row != null) {
@@ -109,4 +113,21 @@ public class PostingRepository {
         return mapper.balanceEntityListToBalanceList(query.getResultList());
     }
 
+    /**
+    public Balance getIDTBalance(long accountId, LocalDate bizDate) {
+        assert (em != null);
+        String JPQL_POSTING_TOTAL = "SELECT new abacus.domain.posting.Balance(x.accountId, :bizDate, x.currency, sum(x.amount)) FROM Posting AS x WHERE x.accountId = :accountId GROUP BY x.currency";
+        String JPQL_POSTING_TOTAL1 = "SELECT new abacus.domain.posting.Balance(accountId, :bizDate, currency, sum(amount)) FROM Posting WHERE accountId = :accountId GROUP BY currency";
+        String JPQL_POSTING_TOTAL2 = "SELECT p.accountId, :bizDate, p.currency, sum(p.amount) FROM Posting AS p WHERE p.accountId = :accountId GROUP BY p.currency";
+
+        TypedQuery<Balance> query =
+                em.createQuery(JPQL_POSTING_TOTAL1, Balance.class);
+        query.setParameter("accountId", accountId);
+        query.setParameter("bizDate", new LocalDateAttributeConverter().convertToDatabaseColumn(bizDate));
+
+        Balance row = query.getSingleResult();
+
+        return row;
+    }
+     */
 }

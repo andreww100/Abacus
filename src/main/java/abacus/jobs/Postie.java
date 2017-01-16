@@ -14,6 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.TemporalAmount;
 
 public class Postie  {
 
@@ -22,11 +26,16 @@ public class Postie  {
     @javax.inject.Inject
     private PostingRepository repo;
 
+    @javax.inject.Inject
+    private AccountRepository repoA;
+
     private static int call = 0;
     private static int ball = 0;
 
     @Transactional
     public void perform() {
+        setBalances();
+
         ++call;
         log.info("Call#: " + call);
 
@@ -35,33 +44,29 @@ public class Postie  {
         for (int i = startPostingId; i <= startPostingId + 5; i++) {
             Posting p = new Posting();
             p.setId(i);
-            p.setAccountId(i);
-            String v = "A" + i;
+            p.setAccountId(1000);
+            p.setBizDate(LocalDateTime.now());
             p.setValue(new Money(new BigDecimal(i), CurrencyCodeFactory.USD));
+            String v = "A" + i;
             p.setDescription("FOO " + v);
             log.info(p.toString());
             repo.createOrUpdatePosting(p);
         }
 
-        setBalances();
     }
 
     public void setBalances()
     {
-        ++ball;
-        log.info("Call#: " + ball);
-        int startBalanceId = 1000 * ball;
-
-        for (int i = startBalanceId; i <= startBalanceId + 5; i++) {
+        LocalDate yday = LocalDate.now().minus(Period.ofDays(1));
+        Money START = new Money(new BigDecimal(100), CurrencyCodeFactory.USD);
+        for (Account a : repoA.getAccounts())
+        {
             Balance b = new Balance();
-            b.setId(i);
-            b.setAccountId(1000);
-
-            b.setValue(new Money(new BigDecimal(i), CurrencyCodeFactory.USD));
-            log.info(b.toString());
+            b.setAccountId(a.getId());
+            b.setBizDate(yday);
+            b.setValue(START);
             repo.createOrUpdateBalance(b);
         }
-
     }
 
     public void check()
@@ -77,7 +82,10 @@ public class Postie  {
         }
 
         log.info(repo.getPosting(1000).toString());
-        log.info(repo.getBalance(1000).toString());
+
+        //log.info(repo.getIDTBalance(1000, LocalDate.now()).toString());
+
+        // log.info(repo.getBalance(1000).toString());
 
     }
 }

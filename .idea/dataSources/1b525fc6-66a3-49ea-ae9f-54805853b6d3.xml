@@ -23,32 +23,36 @@
     <column id="11" parent="5" name="NAME">
       <data-type>VARCHAR(255)|12</data-type>
     </column>
-    <key id="12" parent="5" name="SYS_PK_12518">
+    <key id="12" parent="5" name="SYS_PK_12385">
       <name-surrogate>1</name-surrogate>
       <columns>ID</columns>
       <primary>1</primary>
     </key>
-    <column id="13" parent="6" name="ID">
+    <column id="13" parent="6" name="ACCOUNTID">
       <mandatory>1</mandatory>
       <data-type>BIGINT(64)|-5</data-type>
     </column>
-    <column id="14" parent="6" name="ACCOUNTID">
-      <data-type>BIGINT(64)|-5</data-type>
+    <column id="14" parent="6" name="AMOUNT">
+      <data-type>NUMERIC(38)|2</data-type>
     </column>
-    <column id="15" parent="6" name="AMOUNT">
-      <data-type>NUMERIC(10,2)|2</data-type>
-    </column>
-    <column id="16" parent="6" name="CURRENCY">
+    <column id="15" parent="6" name="CURRENCY">
+      <mandatory>1</mandatory>
       <data-type>VARCHAR(3)|12</data-type>
     </column>
-    <key id="17" parent="6" name="SYS_PK_12522">
+    <column id="16" parent="6" name="BIZDATE">
+      <mandatory>1</mandatory>
+      <data-type>DATE(10)|91</data-type>
+    </column>
+    <key id="17" parent="6" name="SYS_PK_12391">
       <name-surrogate>1</name-surrogate>
-      <columns>ID</columns>
+      <columns>BIZDATE
+CURRENCY
+ACCOUNTID</columns>
       <primary>1</primary>
     </key>
     <foreign-key id="18" parent="6" name="FK_BALANCE_ACCOUNTID">
       <columns>ACCOUNTID</columns>
-      <ref-key>~.ACCOUNT.SYS_PK_12518</ref-key>
+      <ref-key>~.ACCOUNT.SYS_PK_12385</ref-key>
       <cascade-update-rule>no_action</cascade-update-rule>
       <cascade-delete-rule>no_action</cascade-delete-rule>
     </foreign-key>
@@ -56,26 +60,26 @@
       <mandatory>1</mandatory>
       <data-type>BIGINT(64)|-5</data-type>
     </column>
-    <column id="20" parent="7" name="ACCOUNTID">
-      <data-type>BIGINT(64)|-5</data-type>
-    </column>
-    <column id="21" parent="7" name="DESCRIPTION">
+    <column id="20" parent="7" name="DESCRIPTION">
       <data-type>VARCHAR(255)|12</data-type>
     </column>
-    <column id="22" parent="7" name="AMOUNT">
+    <column id="21" parent="7" name="AMOUNT">
       <data-type>NUMERIC(10,2)|2</data-type>
     </column>
-    <column id="23" parent="7" name="CURRENCY">
+    <column id="22" parent="7" name="CURRENCY">
       <data-type>VARCHAR(3)|12</data-type>
     </column>
-    <key id="24" parent="7" name="SYS_PK_12514">
+    <column id="23" parent="7" name="ACCOUNTID">
+      <data-type>BIGINT(64)|-5</data-type>
+    </column>
+    <key id="24" parent="7" name="SYS_PK_12381">
       <name-surrogate>1</name-surrogate>
       <columns>ID</columns>
       <primary>1</primary>
     </key>
     <foreign-key id="25" parent="7" name="FK_POSTING_ACCOUNTID">
       <columns>ACCOUNTID</columns>
-      <ref-key>~.ACCOUNT.SYS_PK_12518</ref-key>
+      <ref-key>~.ACCOUNT.SYS_PK_12385</ref-key>
       <cascade-update-rule>no_action</cascade-update-rule>
       <cascade-delete-rule>no_action</cascade-delete-rule>
     </foreign-key>
@@ -86,7 +90,7 @@
     <column id="27" parent="8" name="SEQ_COUNT">
       <data-type>NUMERIC(38)|2</data-type>
     </column>
-    <key id="28" parent="8" name="SYS_PK_11867">
+    <key id="28" parent="8" name="SYS_PK_11034">
       <name-surrogate>1</name-surrogate>
       <columns>SEQ_NAME</columns>
       <primary>1</primary>

@@ -3,6 +3,8 @@ package abacus.domain.posting;
 import abacus.domain.money.Money;
 import com.google.common.base.MoreObjects;
 
+import java.time.LocalDateTime;
+
 /**
  * A Debit or Credit of Money against an Account
  */
@@ -12,9 +14,11 @@ public class Posting {
 
     private long accountId;
 
-    private String description;
+    private LocalDateTime bizDate;
 
     private Money value;
+
+    private String description;
 
 
     public long getId() {
@@ -33,12 +37,12 @@ public class Posting {
         this.accountId = accountId;
     }
 
-    public String getDescription() {
-        return description;
+    public LocalDateTime getBizDate() {
+        return bizDate;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setBizDate(LocalDateTime bizDate) {
+        this.bizDate = bizDate;
     }
 
     public Money getValue() {
@@ -49,13 +53,22 @@ public class Posting {
         this.value = value;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("id", id)
                 .add("accountId", accountId)
-                .add("description", description)
+                .add("bizDate", bizDate)
                 .add("value", value)
+                .add("description", description)
                 .toString();
     }
 }
