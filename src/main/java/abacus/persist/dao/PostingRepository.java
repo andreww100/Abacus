@@ -1,5 +1,6 @@
 package abacus.persist.dao;
 
+import abacus.domain.money.Money;
 import abacus.domain.posting.Balance;
 import abacus.domain.posting.Posting;
 import abacus.persist.converters.LocalDateAttributeConverter;
@@ -14,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.TemporalAdjuster;
 import java.util.List;
 
 /**
@@ -51,6 +54,12 @@ public class PostingRepository {
         em.persist(row);
     }
 
+    /**
+     * Return a specific posting
+     *
+     * @param id
+     * @return
+     */
     public Posting getPosting(long id) {
         assert (em != null);
         TypedQuery<PostingEntity> query =
@@ -59,20 +68,40 @@ public class PostingRepository {
         query.setParameter("postingId", id);
         PostingEntity row = query.getSingleResult();
 
-        if (row != null) {
-            // Test Lazy Load
-            this.em.clear();
-            log.info("Test Lazy Load: Retrieve Id only: " + row.getAccountId());
-            log.info("Test Lazy Load: Retrieve full Account record: " + row.getAccount().toString());
-        }
-
         return mapper.postingEntityToPosting(row);
     }
 
+    /**
+     * Return ALL postings
+     *
+     * @return all postings
+     */
     public List<Posting> getPostings() {
         TypedQuery<PostingEntity> query = em.createQuery("SELECT p FROM Posting p",
                 PostingEntity.class);
         return mapper.postingEntityListToPostingList(query.getResultList());
+    }
+
+    /**
+     * Return the total of postings to a given account on a given business day
+     *
+     * @param accountId
+     * @param bizDate
+     * @return
+     */
+    public List<Money> getPostingValues(long accountId, LocalDate bizDate) {
+        assert (em != null);
+        String JPQL_POSTING_TOTAL = "SELECT new abacus.domain.money.Money" +
+                "(sum(p.value.amount), p.value.currency) " +
+                "FROM Posting p WHERE p.accountId = :accountId and p.bizDate = :bizDate " +
+                "GROUP BY p.accountId, p.bizDate, p.value.currency";
+
+        TypedQuery<Money> query =
+                em.createQuery(JPQL_POSTING_TOTAL, Money.class);
+        query.setParameter("accountId", accountId);
+        query.setParameter("bizDate", bizDate);
+
+        return query.getResultList();
     }
 
     @Transactional
@@ -87,47 +116,47 @@ public class PostingRepository {
         em.persist(row);
     }
 
-    public Balance getBalance(long accountId, LocalDate bizDate) {
-        assert (em != null);
-        TypedQuery<BalanceEntity> query =
-                em.createQuery("SELECT b from Balance b WHERE b.accountId = :accountId and b.bizDate = :bizDate",
-                        BalanceEntity.class);
-        query.setParameter("accountId", accountId);
-        query.setParameter("bizDate", new LocalDateAttributeConverter().convertToDatabaseColumn(bizDate));
-
-        BalanceEntity row = query.getSingleResult();
-
-        if (row != null) {
-            this.em.clear();
-            // Test Lazy Load
-            log.info("Test Lazy Load: Retrieve Id only: " + row.getAccountId());
-            log.info("Test Lazy Load: Retrieve full Account record: " + row.getAccount().toString());
-        }
-
-        return mapper.balanceEntityToBalance(row);
-    }
-
     public List<Balance> getBalances() {
         TypedQuery<BalanceEntity> query = em.createQuery("SELECT b FROM Balance b",
                 BalanceEntity.class);
         return mapper.balanceEntityListToBalanceList(query.getResultList());
     }
 
-    /**
-    public Balance getIDTBalance(long accountId, LocalDate bizDate) {
+    public List<Balance> getBalance(long accountId, LocalDate bizDate) {
         assert (em != null);
-        String JPQL_POSTING_TOTAL = "SELECT new abacus.domain.posting.Balance(x.accountId, :bizDate, x.currency, sum(x.amount)) FROM Posting AS x WHERE x.accountId = :accountId GROUP BY x.currency";
-        String JPQL_POSTING_TOTAL1 = "SELECT new abacus.domain.posting.Balance(accountId, :bizDate, currency, sum(amount)) FROM Posting WHERE accountId = :accountId GROUP BY currency";
-        String JPQL_POSTING_TOTAL2 = "SELECT p.accountId, :bizDate, p.currency, sum(p.amount) FROM Posting AS p WHERE p.accountId = :accountId GROUP BY p.currency";
-
-        TypedQuery<Balance> query =
-                em.createQuery(JPQL_POSTING_TOTAL1, Balance.class);
+        TypedQuery<BalanceEntity> query =
+                em.createQuery("SELECT b from Balance b WHERE b.account.id = :accountId and b.bizDate = :bizDate",
+                        BalanceEntity.class);
         query.setParameter("accountId", accountId);
-        query.setParameter("bizDate", new LocalDateAttributeConverter().convertToDatabaseColumn(bizDate));
+        query.setParameter("bizDate", bizDate);
 
-        Balance row = query.getSingleResult();
-
-        return row;
+        return mapper.balanceEntityListToBalanceList(query.getResultList());
     }
-     */
+
+    public List<Money> getBalanceValues(long accountId, LocalDate bizDate) {
+        assert (em != null);
+        TypedQuery<Money> query =
+                em.createQuery("SELECT new abacus.domain.money.Money(b.amount, b.currency) " +
+                                "FROM Balance b " +
+                                "WHERE b.account.id = :accountId and b.bizDate = :bizDate",
+                        Money.class);
+        query.setParameter("accountId", accountId);
+        query.setParameter("bizDate", bizDate);
+
+        return query.getResultList();
+    }
+
+    public List<Balance> getIDTBalance(long accountId, LocalDate bizDate) {
+        LocalDate priorBizDate = bizDate.minus(Period.ofDays(1));
+
+        List<Money> postingValues = getPostingValues(accountId, bizDate);
+        List<Money> balanceValues = getBalanceValues(accountId, priorBizDate);
+
+        // Append postings and aggregate
+        balanceValues.addAll(postingValues);
+        List<Money> values = Money.aggregate(balanceValues);
+
+        return Balance.toBalances(accountId, bizDate, values);
+    }
+
 }

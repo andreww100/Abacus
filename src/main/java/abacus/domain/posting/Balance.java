@@ -6,6 +6,8 @@ import com.google.common.base.MoreObjects;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Monetary total in an Account
@@ -46,10 +48,25 @@ public class Balance {
     {
     }
 
+    public Balance(long accountId, LocalDate bizDate, Money value) {
+        this.accountId = accountId;
+        this.bizDate = bizDate;
+        this.value = value;
+    }
+
     public Balance(long accountId, LocalDate bizDate, CurrencyCode currency, BigDecimal amount) {
         this.accountId = accountId;
         this.bizDate = bizDate;
         this.value = new Money(amount, currency);
+    }
+
+    public static List<Balance> toBalances(long accountId, LocalDate bizDate, List<Money> values) {
+        List<Balance> output = new ArrayList<>();
+
+        // Build a new list of Balances
+        values.forEach(value -> output.add(new Balance(accountId, bizDate, value)));
+
+        return output;
     }
 
     @Override

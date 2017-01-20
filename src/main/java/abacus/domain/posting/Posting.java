@@ -3,7 +3,9 @@ package abacus.domain.posting;
 import abacus.domain.money.Money;
 import com.google.common.base.MoreObjects;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * A Debit or Credit of Money against an Account
@@ -14,7 +16,9 @@ public class Posting {
 
     private long accountId;
 
-    private LocalDateTime bizDate;
+    private LocalDate bizDate;
+
+    private LocalTime bizTime;
 
     private Money value;
 
@@ -37,12 +41,20 @@ public class Posting {
         this.accountId = accountId;
     }
 
-    public LocalDateTime getBizDate() {
+    public LocalDate getBizDate() {
         return bizDate;
     }
 
-    public void setBizDate(LocalDateTime bizDate) {
+    public void setBizDate(LocalDate bizDate) {
         this.bizDate = bizDate;
+    }
+
+    public LocalTime getBizTime() {
+        return bizTime;
+    }
+
+    public void setBizTime(LocalTime bizTime) {
+        this.bizTime = bizTime;
     }
 
     public Money getValue() {
@@ -67,6 +79,7 @@ public class Posting {
                 .add("id", id)
                 .add("accountId", accountId)
                 .add("bizDate", bizDate)
+                .add("bizTime", bizTime)
                 .add("value", value)
                 .add("description", description)
                 .toString();

@@ -3,6 +3,9 @@ package abacus.domain.money;
 import com.google.common.base.MoreObjects;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Represents an amount of a currency
@@ -35,6 +38,19 @@ public class Money {
 
     public void setCurrency(CurrencyCode currency) {
         this.currency = currency;
+    }
+
+    public static List<Money> aggregate(List<Money> input) {
+        List<Money> output = new ArrayList<>();
+
+        // Merge insert all monetary amounts into a Map, keyed by CurrencyCode
+        HashMap<CurrencyCode, BigDecimal> map = new HashMap<>();
+        input.forEach(value -> map.merge(value.getCurrency(), value.getAmount(), BigDecimal::add));
+
+        // Populate the output list with Money objects built from the map
+        map.forEach((k, v) -> output.add(new Money(v, k)));
+
+        return output;
     }
 
     @Override

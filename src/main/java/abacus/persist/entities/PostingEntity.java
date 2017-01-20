@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * Represents a Credit or Debit Posting to an Account
@@ -27,13 +29,22 @@ public class PostingEntity implements Serializable {
     @JoinColumn(name = "accountId")
     private AccountEntity account;
 
+    @Column(insertable = false, updatable = false)
+    private long accountId;
+
     /**
-     * Business Date & Time the Posting was recorded on
-     * TODO: Consider splitting date from time
+     * Business Date the Posting was recorded on
      */
     @Id
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime bizDate;
+    @Temporal(TemporalType.DATE)
+    private LocalDate bizDate;
+
+    /**
+     * Business Time the Posting was recorded on
+     */
+    @Id
+    @Temporal(TemporalType.TIME)
+    private LocalTime bizTime;
 
     @Embedded
     private MoneyFields value;
@@ -57,12 +68,20 @@ public class PostingEntity implements Serializable {
         this.account = account;
     }
 
-    public LocalDateTime getBizDate() {
+    public LocalDate getBizDate() {
         return bizDate;
     }
 
-    public void setBizDate(LocalDateTime bizDate) {
+    public void setBizDate(LocalDate bizDate) {
         this.bizDate = bizDate;
+    }
+
+    public LocalTime getBizTime() {
+        return bizTime;
+    }
+
+    public void setBizTime(LocalTime bizTime) {
+        this.bizTime = bizTime;
     }
 
     public MoneyFields getValue() {
@@ -87,12 +106,14 @@ public class PostingEntity implements Serializable {
         return getAccount().getId();
     }
 
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("id", id)
                 .add("accountId", getAccountId())
                 .add("bizDate", bizDate)
+                .add("bizTime", bizTime)
                 .add("value", value)
                 .add("description", description)
                 .toString();

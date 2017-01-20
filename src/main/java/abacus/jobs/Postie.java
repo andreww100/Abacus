@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.temporal.TemporalAmount;
+import java.util.List;
 
 public class Postie  {
 
@@ -45,7 +46,9 @@ public class Postie  {
             Posting p = new Posting();
             p.setId(i);
             p.setAccountId(1000);
-            p.setBizDate(LocalDateTime.now());
+            LocalDateTime dt = LocalDateTime.now();
+            p.setBizDate(dt.toLocalDate());
+            p.setBizTime(dt.toLocalTime());
             p.setValue(new Money(new BigDecimal(i), CurrencyCodeFactory.USD));
             String v = "A" + i;
             p.setDescription("FOO " + v);
@@ -83,9 +86,10 @@ public class Postie  {
 
         log.info(repo.getPosting(1000).toString());
 
-        //log.info(repo.getIDTBalance(1000, LocalDate.now()).toString());
-
-        // log.info(repo.getBalance(1000).toString());
-
+        List<Balance> totals = repo.getIDTBalance(1000, LocalDate.now());
+        for (Balance total : totals)
+        {
+            log.info(total.toString());
+        }
     }
 }
