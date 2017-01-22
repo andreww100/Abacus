@@ -13,6 +13,18 @@
     </properties>
 
     <dependencies>
+        <!-- JEE - https://mvnrepository.com/artifact/javax/javaee-api -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+        </dependency>
+        <!-- REST - https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-server -->
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>2.25</version>
+        </dependency>
         <!-- LOGGING - https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -35,6 +47,12 @@
         <dependency>
             <groupId>com.google.inject.extensions</groupId>
             <artifactId>guice-persist</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+        <!-- DEPENDENCY INJECTION SERVLET HELPER - https://mvnrepository.com/artifact/com.google.inject.extensions/guice-servlet -->
+        <dependency>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-servlet</artifactId>
             <version>4.1.0</version>
         </dependency>
         <!-- HELPER LIBS - https://mvnrepository.com/artifact/com.google.guava/guava -->
@@ -67,6 +85,12 @@
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
             <version>2.3.4</version>
+        </dependency>
+        <!-- JSTL - https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/javax.servlet.jsp.jstl-api -->
+        <dependency>
+            <groupId>javax.servlet.jsp.jstl</groupId>
+            <artifactId>javax.servlet.jsp.jstl-api</artifactId>
+            <version>1.2.1</version>
         </dependency>
     </dependencies>
 

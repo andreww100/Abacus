@@ -28,9 +28,8 @@ public class CurrencyCode {
 
         CurrencyCode that = (CurrencyCode) o;
 
-        if (!value.equals(that.value)) return false;
+        return value.equals(that.value);
 
-        return true;
     }
 
     @Override
