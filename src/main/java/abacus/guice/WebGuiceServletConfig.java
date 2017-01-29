@@ -16,6 +16,8 @@ public class WebGuiceServletConfig extends GuiceServletContextListener {
 
     private Logger log = LoggerFactory.getLogger(WebGuiceServletConfig.class);
 
+    private Injector injector = null;
+
     public WebGuiceServletConfig() {
         super();
         log.info("BEGIN constructor");
@@ -55,7 +57,6 @@ public class WebGuiceServletConfig extends GuiceServletContextListener {
 
     @Override
     protected Injector getInjector() {
-        Injector injector = null;
         try {
             if (injector == null) {
                 injector = Guice.createInjector(new WebModule());
