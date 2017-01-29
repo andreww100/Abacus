@@ -17,9 +17,17 @@
                       value="C:\Dev\HSQLDB\data\abacusdb\mydrop.ddl"/>
             <property name="javax.persistence.schema-generation.scripts.create-target"
                       value="C:\Dev\HSQLDB\data\abacusdb\mycreate.ddl"/>
-            <property name="eclipselink.deploy-on-startup" value="true"/>
 
-            <property name="eclipselink.weaving" value="dynamic"/>
+            <property name="jdbc.persistence.logging" value="true" />
+
+            <property name="eclipselink.deploy-on-startup" value="true"/>
+            <property name="eclipselink.session.customizer" value="abacus.persist.custom.SLF4JLog"/>
+
+            <property name="eclipselink.logging.level.sql" value="FINEST" />
+            <property name="eclipselink.logging.level" value="FINE" />
+            <property name="eclipselink.logging.level.cache" value="FINEST" />
+
+            <property name="eclipselink.weaving" value="static"/>
         </properties>
     </persistence-unit>
 
@@ -41,6 +49,8 @@
                       value="C:\Dev\HSQLDB\data\abacusdb\mydrop.ddl"/>
             <property name="javax.persistence.schema-generation.scripts.create-target"
                       value="C:\Dev\HSQLDB\data\abacusdb\mycreate.ddl"/>
+
+            <property name="eclipselink.weaving" value="static"/>
 
             <property name="jdbc.persistence.logging" value="true" />
 

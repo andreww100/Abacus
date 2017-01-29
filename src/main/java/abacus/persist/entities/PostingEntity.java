@@ -31,14 +31,12 @@ public class PostingEntity implements Serializable {
     /**
      * Business Date the Posting was recorded on
      */
-    @Id
     @Temporal(TemporalType.DATE)
     private LocalDate bizDate;
 
     /**
      * Business Time the Posting was recorded on
      */
-    @Id
     @Temporal(TemporalType.TIME)
     private LocalTime bizTime;
 

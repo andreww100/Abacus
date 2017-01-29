@@ -14,37 +14,40 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "WebApplicationServlet",
+@WebServlet(name = "WebInitializerServlet",
         urlPatterns = "/myController",
         loadOnStartup = 0, asyncSupported = true)
-public class WebApplicationServlet extends HttpServlet {
+public class WebInitializerServlet extends HttpServlet {
 
-    private Logger log = LoggerFactory.getLogger(WebApplicationServlet.class);
+    private Logger log = LoggerFactory.getLogger(WebInitializerServlet.class);
 
-    private int count;
-
-    private StartupJob startUpJob;
-
+    /**
+     * NOTE: there is no need to start the Persistence Service, as the Guice
+     * PersistFilter already does this.
+     *
+     * @param config
+     * @throws ServletException
+     */
     @Override
     public void init(ServletConfig config) throws ServletException {
-        log.info("STARTING WebApplicationServlet!");
+        log.info("BEGIN");
+
         super.init(config);
         getServletContext().log("init() called");
-        count = 0;
 
         // Run the common StartUp job
         Injector injector = (Injector) config.getServletContext().getAttribute(Injector.class.getName());
-        startUpJob = injector.getInstance(StartupJob.class);
-        log.info("STARTING call start on " + startUpJob);
+        StartupJob startUpJob = injector.getInstance(StartupJob.class);
         startUpJob.start();
+
+        log.info("END");
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         getServletContext().log("service() called");
-        count++;
-        response.getWriter().write("Incrementing the count: count = " + count);
+        response.getWriter().write("Hello, World!");
     }
 
     @Override
