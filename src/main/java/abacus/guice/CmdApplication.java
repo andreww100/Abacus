@@ -23,7 +23,7 @@ public class CmdApplication
 
         // Run the common StartUp job
         StartupJob startUpJob = injector.getInstance(StartupJob.class);
-        startUpJob.start(injector);
+        startUpJob.start();
     }
 
 

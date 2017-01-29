@@ -1,5 +1,6 @@
 package abacus.jobs;
 
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
@@ -10,17 +11,22 @@ public class StartupJob {
 
     private Logger log = LoggerFactory.getLogger(StartupJob.class);
 
-    public void start(Injector injector) {
+    @Inject
+    private AccountJob accountJob;
+
+    @Inject
+    private PostingJob postingJob;
+
+    public void start() {
         log.info("BEGIN StartUp Job");
 
-        // Do Work!
-        AccountJob setup = injector.getInstance(AccountJob.class);
-        setup.perform();
-        setup.check();
+        // Set up accounts
+        accountJob.perform();
+        accountJob.check();
 
-        PostingJob postie = injector.getInstance(PostingJob.class);
-        postie.perform();
-        postie.check();
+        // Insert sample postings
+        postingJob.perform();
+        postingJob.check();
 
         log.info("END StartUp Job");
     }

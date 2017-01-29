@@ -1,4 +1,5 @@
 package abacus.guice;
+
 import abacus.jobs.StartupJob;
 import com.google.inject.Injector;
 import org.slf4j.Logger;
@@ -33,9 +34,9 @@ public class WebApplicationServlet extends HttpServlet {
 
         // Run the common StartUp job
         Injector injector = (Injector) config.getServletContext().getAttribute(Injector.class.getName());
-        log.info("STARTING call start on " + startUpJob);
         startUpJob = injector.getInstance(StartupJob.class);
-        startUpJob.start(injector);
+        log.info("STARTING call start on " + startUpJob);
+        startUpJob.start();
     }
 
     @Override
