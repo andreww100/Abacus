@@ -1,17 +1,13 @@
 package abacus.persist.entities;
 
-import abacus.jobs.Postie;
 import abacus.persist.embeddables.MoneyFields;
 import com.google.common.base.MoreObjects;
-import org.eclipse.persistence.indirection.ValueHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**

@@ -1,6 +1,6 @@
 package abacus.guice;
 
-import abacus.jobs.Startup;
+import abacus.jobs.StartupJob;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -22,7 +22,7 @@ public class CmdApplication
         injector.getInstance(CmdInitializer.class);
 
         // Run the common StartUp job
-        Startup startUpJob = injector.getInstance(Startup.class);
+        StartupJob startUpJob = injector.getInstance(StartupJob.class);
         startUpJob.start(injector);
     }
 

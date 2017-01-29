@@ -1,22 +1,24 @@
 package abacus.jobs;
 
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Startup {
+@Singleton
+public class StartupJob {
 
-    private Logger log = LoggerFactory.getLogger(Startup.class);
+    private Logger log = LoggerFactory.getLogger(StartupJob.class);
 
     public void start(Injector injector) {
         log.info("BEGIN StartUp Job");
 
         // Do Work!
-        StaticSetup setup = injector.getInstance(StaticSetup.class);
+        AccountJob setup = injector.getInstance(AccountJob.class);
         setup.perform();
         setup.check();
 
-        Postie postie = injector.getInstance(Postie.class);
+        PostingJob postie = injector.getInstance(PostingJob.class);
         postie.perform();
         postie.check();
 

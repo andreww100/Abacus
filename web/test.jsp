@@ -16,9 +16,11 @@
 <%
     Injector inj = JspInjector.getInjector(pageContext);
     AccountRepository repo = inj.getInstance(AccountRepository.class);
+    Account a = repo.getAccount(1000);
+    String v = (a!=null) ? a.toString() : "empty";
 %>
 Hello2 from the new web app.
-Here we go: <%= repo.getAccount(1000).toString() %>
+Here we go: <%= v %>
 
 <%
     List<Account> accounts = repo.getAccounts();

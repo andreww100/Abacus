@@ -1,14 +1,12 @@
 package abacus.jobs;
 
 import abacus.domain.account.Account;
-import abacus.domain.money.CurrencyCode;
 import abacus.domain.money.CurrencyCodeFactory;
 import abacus.domain.money.Money;
 import abacus.domain.posting.Balance;
 import abacus.domain.posting.Posting;
 import abacus.persist.dao.AccountRepository;
 import abacus.persist.dao.PostingRepository;
-import abacus.persist.entities.AccountEntity;
 import com.google.inject.persist.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +15,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.time.temporal.TemporalAmount;
 import java.util.List;
 
-public class Postie  {
+public class PostingJob {
 
-    private Logger log = LoggerFactory.getLogger(Postie.class);
+    private Logger log = LoggerFactory.getLogger(PostingJob.class);
 
     @javax.inject.Inject
     private PostingRepository repo;

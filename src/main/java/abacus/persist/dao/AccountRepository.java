@@ -38,12 +38,19 @@ public class AccountRepository {
 
     public Account getAccount(long id) {
         assert (em != null);
+        Account ret = null;
         TypedQuery<AccountEntity> query =
                 em.createQuery("SELECT a from Account a WHERE a.id = :accountId",
                         AccountEntity.class);
         query.setParameter("accountId", id);
-        AccountEntity row = query.getSingleResult();
-        return mapper.accountEntityToAccount(row);
+        List<AccountEntity> results = query.getResultList();
+        if ((results != null) && (results.size() >= 1))
+        {
+            AccountEntity row = results.get(0);
+            ret = mapper.accountEntityToAccount(row);
+
+        }
+        return ret;
     }
 
     public List<Account> getAccounts() {
