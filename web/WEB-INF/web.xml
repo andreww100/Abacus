@@ -6,7 +6,6 @@
 
     <display-name>Restful Web Application</display-name>
 
-
     <resource-ref>
         <description>AbacusDB</description>
         <res-ref-name>jdbc/AbacusDB</res-ref-name>

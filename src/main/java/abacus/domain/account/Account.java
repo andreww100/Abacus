@@ -3,9 +3,12 @@ package abacus.domain.account;
 import abacus.domain.money.CurrencyCode;
 import com.google.common.base.MoreObjects;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * An Account has entries posted against it
  */
+@XmlRootElement
 public class Account {
 
     private long id;

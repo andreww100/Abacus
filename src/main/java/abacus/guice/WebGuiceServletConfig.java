@@ -16,7 +16,7 @@ public class WebGuiceServletConfig extends GuiceServletContextListener {
 
     private Logger log = LoggerFactory.getLogger(WebGuiceServletConfig.class);
 
-    private Injector injector = null;
+    public static Injector injector = null;
 
     public WebGuiceServletConfig() {
         super();

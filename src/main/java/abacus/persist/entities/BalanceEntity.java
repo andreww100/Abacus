@@ -26,7 +26,7 @@ public class BalanceEntity implements Serializable {
     private Logger log = LoggerFactory.getLogger(BalanceEntity.class);
 
     /**
-     * Account the Balance is for
+     * Account the BalanceResource is for
      */
     @Id
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -34,7 +34,7 @@ public class BalanceEntity implements Serializable {
     private AccountEntity account;
 
     /**
-     * Business Date the Balance was recorded on
+     * Business Date the BalanceResource was recorded on
      */
     @Id
     @Temporal(TemporalType.DATE)

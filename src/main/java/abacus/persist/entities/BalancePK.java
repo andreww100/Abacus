@@ -8,18 +8,18 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
- * Balance has a Primary Key of Account, Business Date and Currency
+ * BalanceResource has a Primary Key of Account, Business Date and Currency
  */
 public class BalancePK implements Serializable {
 
     /**
-     * Account the Balance is for.
+     * Account the BalanceResource is for.
      * NOTE: name of this field must exactly match that used in BalanceEntity
      */
     private long account;
 
     /**
-     * Business Date the Balance was recorded on
+     * Business Date the BalanceResource was recorded on
      */
     private LocalDate bizDate;
 
