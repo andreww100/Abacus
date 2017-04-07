@@ -3,7 +3,6 @@ package abacus.persist.dao;
 import abacus.domain.money.Money;
 import abacus.domain.posting.Balance;
 import abacus.domain.posting.Posting;
-import abacus.persist.converters.LocalDateAttributeConverter;
 import abacus.persist.entities.AccountEntity;
 import abacus.persist.entities.BalanceEntity;
 import abacus.persist.entities.PostingEntity;
@@ -15,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
-import java.time.Period;
-import java.time.temporal.TemporalAdjuster;
 import java.util.List;
 
 /**
@@ -31,6 +28,10 @@ public class PostingRepository {
 
     @javax.inject.Inject
     private EntityManager em;
+
+    @javax.inject.Inject
+    private BizDateDAO bizDateDAO;
+
 
     // MapStruct Mapper
     private PostingMapper mapper;
@@ -93,8 +94,8 @@ public class PostingRepository {
         assert (em != null);
         String JPQL_POSTING_TOTAL = "SELECT new abacus.domain.money.Money" +
                 "(sum(p.value.amount), p.value.currency) " +
-                "FROM Posting p WHERE p.accountId = :accountId and p.bizDate = :bizDate " +
-                "GROUP BY p.accountId, p.bizDate, p.value.currency";
+                "FROM Posting p WHERE p.accountId = :accountId and p.postingDate = :bizDate " +
+                "GROUP BY p.accountId, p.postingDate, p.value.currency";
 
         TypedQuery<Money> query =
                 em.createQuery(JPQL_POSTING_TOTAL, Money.class);
@@ -146,11 +147,10 @@ public class PostingRepository {
         return query.getResultList();
     }
 
-    public List<Balance> getIDTBalance(long accountId, LocalDate bizDate) {
-        LocalDate priorBizDate = bizDate.minus(Period.ofDays(1));
-
+    public List<Balance> getIDTBalance(long accountId) {
+        LocalDate bizDate = bizDateDAO.getCurBizDate();
         List<Money> postingValues = getPostingValues(accountId, bizDate);
-        List<Money> balanceValues = getBalanceValues(accountId, priorBizDate);
+        List<Money> balanceValues = getBalanceValues(accountId, bizDateDAO.getPrevBizDate());
 
         // Append postings and aggregate
         balanceValues.addAll(postingValues);

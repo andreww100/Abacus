@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 /**
  * Represents a Credit or Debit Posting to an Account
@@ -32,13 +32,13 @@ public class PostingEntity implements Serializable {
      * Business Date the Posting was recorded on
      */
     @Temporal(TemporalType.DATE)
-    private LocalDate bizDate;
+    private LocalDate postingDate;
 
     /**
      * Business Time the Posting was recorded on
      */
-    @Temporal(TemporalType.TIME)
-    private LocalTime bizTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime transactionDate;
 
     @Embedded
     private MoneyFields value;
@@ -62,20 +62,20 @@ public class PostingEntity implements Serializable {
         this.account = account;
     }
 
-    public LocalDate getBizDate() {
-        return bizDate;
+    public LocalDate getPostingDate() {
+        return postingDate;
     }
 
-    public void setBizDate(LocalDate bizDate) {
-        this.bizDate = bizDate;
+    public void setPostingDate(LocalDate bizDate) {
+        this.postingDate = bizDate;
     }
 
-    public LocalTime getBizTime() {
-        return bizTime;
+    public LocalDateTime getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setBizTime(LocalTime bizTime) {
-        this.bizTime = bizTime;
+    public void setTransactionDate(LocalDateTime transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
     public MoneyFields getValue() {
@@ -100,14 +100,14 @@ public class PostingEntity implements Serializable {
         return getAccount().getId();
     }
 
-
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("id", id)
-                .add("accountId", getAccountId())
-                .add("bizDate", bizDate)
-                .add("bizTime", bizTime)
+                .add("account", account)
+                .add("accountId", accountId)
+                .add("postingDate", postingDate)
+                .add("transactionDate", transactionDate)
                 .add("value", value)
                 .add("description", description)
                 .toString();

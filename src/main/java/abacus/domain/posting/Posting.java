@@ -5,7 +5,6 @@ import com.google.common.base.MoreObjects;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 /**
  * A Debit or Credit of Money against an Account
@@ -16,9 +15,9 @@ public class Posting {
 
     private long accountId;
 
-    private LocalDate bizDate;
+    private LocalDate postingDate;
 
-    private LocalTime bizTime;
+    private LocalDateTime transactionDate;
 
     private Money value;
 
@@ -41,20 +40,20 @@ public class Posting {
         this.accountId = accountId;
     }
 
-    public LocalDate getBizDate() {
-        return bizDate;
+    public LocalDate getPostingDate() {
+        return postingDate;
     }
 
-    public void setBizDate(LocalDate bizDate) {
-        this.bizDate = bizDate;
+    public void setPostingDate(LocalDate postingDate) {
+        this.postingDate = postingDate;
     }
 
-    public LocalTime getBizTime() {
-        return bizTime;
+    public LocalDateTime getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setBizTime(LocalTime bizTime) {
-        this.bizTime = bizTime;
+    public void setTransactionDate(LocalDateTime transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
     public Money getValue() {
@@ -78,8 +77,8 @@ public class Posting {
         return MoreObjects.toStringHelper(this)
                 .add("id", id)
                 .add("accountId", accountId)
-                .add("bizDate", bizDate)
-                .add("bizTime", bizTime)
+                .add("postingDate", postingDate)
+                .add("transactionDate", transactionDate)
                 .add("value", value)
                 .add("description", description)
                 .toString();

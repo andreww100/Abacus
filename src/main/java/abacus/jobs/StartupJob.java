@@ -1,5 +1,6 @@
 package abacus.jobs;
 
+import abacus.persist.dao.BizDateDAO;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -12,6 +13,9 @@ public class StartupJob {
     private Logger log = LoggerFactory.getLogger(StartupJob.class);
 
     @Inject
+    private CalendarJob calendarJob;
+
+    @Inject
     private AccountJob accountJob;
 
     @Inject
@@ -19,6 +23,9 @@ public class StartupJob {
 
     public void start() {
         log.info("BEGIN StartUp Job");
+
+        // Set up calendars and biz date
+        calendarJob.perform();
 
         // Set up accounts
         accountJob.perform();
