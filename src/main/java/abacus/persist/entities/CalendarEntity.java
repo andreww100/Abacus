@@ -2,6 +2,8 @@ package abacus.persist.entities;
 
 import abacus.persist.embeddables.CalendarEvent;
 import com.google.common.base.MoreObjects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
@@ -12,6 +14,9 @@ import java.util.Set;
 
 @Entity(name = "Calendar")
 public class CalendarEntity {
+
+    @Transient
+    private Logger log = LoggerFactory.getLogger(CalendarEntity.class);
 
     @Id
     private int year;
@@ -38,7 +43,13 @@ public class CalendarEntity {
     }
 
     public boolean isHoliday(LocalDate date) {
-        return holidayDates.contains(date);
+        assert(date != null);
+        CalendarEvent event = this.holidayDates.stream().filter(e -> date.equals(e.getDate())).findFirst().orElse(null);
+        if (event != null)
+        {
+            log.info("found {}", event);
+        }
+        return event != null;
     }
 
     public boolean isBizDate(LocalDate date) {

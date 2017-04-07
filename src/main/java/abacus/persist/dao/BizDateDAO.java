@@ -116,7 +116,7 @@ public class BizDateDAO {
         TypedQuery<CalendarEntity> query = em.createQuery(
                 "SELECT c FROM Calendar c WHERE c.year = :year",
                 CalendarEntity.class);
-        query.setParameter("year", 2017);
+        query.setParameter("year", year);
         CalendarEntity requested = query.getSingleResult();
         LOG.info("Found {}", requested);
         return requested;
