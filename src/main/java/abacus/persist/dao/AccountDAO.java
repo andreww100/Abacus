@@ -15,7 +15,7 @@ import java.util.List;
  * JPA objects cannot be passed out
  */
 //@RequestScoped
-public class AccountRepository {
+public class AccountDAO {
 
     @javax.inject.Inject
     private EntityManager em;
@@ -24,7 +24,7 @@ public class AccountRepository {
     private AccountMapper mapper;
 
 
-    public AccountRepository() {
+    public AccountDAO() {
         mapper = Mappers.getMapper(AccountMapper.class);
     }
 

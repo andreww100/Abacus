@@ -22,8 +22,9 @@ import java.time.LocalDate;
 @Entity(name = "Balance")
 @IdClass(BalancePK.class)
 public class BalanceEntity implements Serializable {
+
     @Transient
-    private Logger log = LoggerFactory.getLogger(BalanceEntity.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BalanceEntity.class);
 
     /**
      * Account the BalanceResource is for

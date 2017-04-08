@@ -1,7 +1,6 @@
 package abacus.persist.entities;
 
 import abacus.domain.money.CurrencyCode;
-import abacus.domain.posting.Posting;
 import com.google.common.base.MoreObjects;
 import com.google.common.hash.HashCode;
 import org.slf4j.Logger;
@@ -9,13 +8,12 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity(name = "Account")
 public class AccountEntity implements Serializable
 {
     @Transient
-    private Logger log = LoggerFactory.getLogger(AccountEntity.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccountEntity.class);
 
     @Id
     @TableGenerator(name="IDGenAccount", allocationSize=1,initialValue =1000)

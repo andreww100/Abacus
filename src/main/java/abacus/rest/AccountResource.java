@@ -2,7 +2,7 @@ package abacus.rest;
 
 import abacus.domain.account.Account;
 import abacus.domain.money.CurrencyCodeFactory;
-import abacus.persist.dao.AccountRepository;
+import abacus.persist.dao.AccountDAO;
 import abacus.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
@@ -26,7 +25,7 @@ public class AccountResource {
     private Logger log = LoggerFactory.getLogger(AccountResource.class);
 
     @Inject
-    private AccountRepository daoAccount;
+    private AccountDAO daoAccount;
 
     public AccountResource() {
         log.info("CREATED");
@@ -48,11 +47,11 @@ public class AccountResource {
         return "999";
     }
 
-    public AccountRepository getDaoAccount() {
+    public AccountDAO getDaoAccount() {
         return daoAccount;
     }
 
-    public void setDaoAccount(AccountRepository daoAccount) {
+    public void setDaoAccount(AccountDAO daoAccount) {
         this.daoAccount = daoAccount;
     }
 

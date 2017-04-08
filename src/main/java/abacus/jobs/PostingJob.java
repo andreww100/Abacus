@@ -5,9 +5,9 @@ import abacus.domain.money.CurrencyCodeFactory;
 import abacus.domain.money.Money;
 import abacus.domain.posting.Balance;
 import abacus.domain.posting.Posting;
-import abacus.persist.dao.AccountRepository;
+import abacus.persist.dao.AccountDAO;
 import abacus.persist.dao.BizDateDAO;
-import abacus.persist.dao.PostingRepository;
+import abacus.persist.dao.PostingDAO;
 import com.google.inject.persist.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.util.List;
 
 public class PostingJob {
@@ -24,9 +23,9 @@ public class PostingJob {
     private static int ball = 0;
     private Logger log = LoggerFactory.getLogger(PostingJob.class);
     @javax.inject.Inject
-    private PostingRepository repo;
+    private PostingDAO repo;
     @javax.inject.Inject
-    private AccountRepository repoA;
+    private AccountDAO repoA;
     @javax.inject.Inject
     private BizDateDAO repoBizDate;
 

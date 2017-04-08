@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 public class BizDateDAO {
@@ -26,7 +27,53 @@ public class BizDateDAO {
     private LocalDate nextBizDate = null;
     private LocalDate prevBizDate = null;
 
-    // Public Date Getters
+    // Calendar methods (not related to current biz date)
+
+    @Transactional
+    public CalendarEntity createCalendar(int year, List<CalendarEvent> holidays) {
+        CalendarEntity newCalendarEntity = new CalendarEntity();
+        newCalendarEntity.setYear(year);
+        holidays.forEach(newCalendarEntity::addHoliday);
+        em.persist(newCalendarEntity);
+        return newCalendarEntity;
+    }
+
+    public CalendarEntity getCalendarEntity(int year) {
+        // SELECT
+        TypedQuery<CalendarEntity> query = em.createQuery(
+                "SELECT c FROM Calendar c WHERE c.year = :year",
+                CalendarEntity.class);
+        query.setParameter("year", year);
+        CalendarEntity requested = query.getSingleResult();
+        LOG.info("Found {}", requested);
+        return requested;
+    }
+
+    public LocalDate getNextBizDate(LocalDate date) {
+        return adjacentBizDate(date, true);
+    }
+
+    public LocalDate getPrevBizDate(LocalDate date) {
+        return adjacentBizDate(date, false);
+    }
+
+    protected LocalDate adjacentBizDate(LocalDate date, boolean later) {
+        final Period ONE_DAY = Period.ofDays(1);
+        LocalDate proposal = date;
+        CalendarEntity proposalCalendar = null;
+
+        do {
+            proposal = later ? proposal.plus(ONE_DAY) : proposal.minus(ONE_DAY);
+            if ((proposalCalendar == null) || (proposalCalendar.getYear() != proposal.getYear())) {
+                proposalCalendar = getCalendarEntity(proposal.getYear());
+            }
+        }
+        while (!proposalCalendar.isBizDate(proposal));
+
+        return proposal;
+    }
+
+    // Current BizDate methods
 
     public LocalDate getCurBizDate() {
         return this.getCurBizDateEntity().getBizDate();
@@ -63,7 +110,7 @@ public class BizDateDAO {
 
     public LocalDate getNextBizDate() {
         if (this.nextBizDate == null) {
-            this.nextBizDate = getCalendarEntity().nextBizDate(getCurBizDate());
+            this.nextBizDate = getNextBizDate(getCurBizDate());
         }
         return this.nextBizDate;
     }
@@ -72,18 +119,9 @@ public class BizDateDAO {
 
     public LocalDate getPrevBizDate() {
         if (this.prevBizDate == null) {
-            this.prevBizDate = getCalendarEntity().prevBizDate(getCurBizDate());
+            this.prevBizDate = getPrevBizDate(getCurBizDate());
         }
         return this.prevBizDate;
-    }
-
-    @Transactional
-    public CalendarEntity createCalendar(int year, List<CalendarEvent> holidays) {
-        CalendarEntity newCalendarEntity = new CalendarEntity();
-        newCalendarEntity.setYear(year);
-        holidays.stream().forEach(newCalendarEntity::addHoliday);
-        em.persist(newCalendarEntity);
-        return newCalendarEntity;
     }
 
     public void rollBizDate() {
@@ -92,7 +130,6 @@ public class BizDateDAO {
     }
 
     // HELPERS
-
 
     protected CurBizDateEntity getCurBizDateEntity() {
         if (this.curBizDateEntity == null) {
@@ -111,16 +148,6 @@ public class BizDateDAO {
         return this.curBizDateEntity; // SELECT
     }
 
-    public CalendarEntity getCalendarEntity(int year) {
-        // SELECT
-        TypedQuery<CalendarEntity> query = em.createQuery(
-                "SELECT c FROM Calendar c WHERE c.year = :year",
-                CalendarEntity.class);
-        query.setParameter("year", year);
-        CalendarEntity requested = query.getSingleResult();
-        LOG.info("Found {}", requested);
-        return requested;
-    }
 
     public CalendarEntity getCalendarEntity() {
         if (this.calendarEntity == null) {
@@ -129,5 +156,4 @@ public class BizDateDAO {
         }
         return this.calendarEntity;
     }
-
 }

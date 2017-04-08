@@ -2,7 +2,7 @@ package abacus.jobs;
 
 import abacus.domain.account.Account;
 import abacus.domain.money.CurrencyCodeFactory;
-import abacus.persist.dao.AccountRepository;
+import abacus.persist.dao.AccountDAO;
 import com.google.inject.persist.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +12,7 @@ public class AccountJob {
     private Logger log = LoggerFactory.getLogger(AccountJob.class);
 
     @javax.inject.Inject
-    private AccountRepository repo;
+    private AccountDAO repo;
 
     private static int call = 0;
 

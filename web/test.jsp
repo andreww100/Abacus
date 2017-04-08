@@ -1,7 +1,7 @@
 <!---  taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> -->
 <%@ page import="com.google.inject.Injector" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="abacus.persist.dao.AccountRepository" %>
+<%@ page import="abacus.persist.dao.AccountDAO" %>
 <%@ page import="abacus.guice.JspInjector" %>
 <%@ page import="abacus.domain.account.Account" %>
 <%@ page import="java.util.List" %>
@@ -15,7 +15,7 @@
 <body>
 <%
     Injector inj = JspInjector.getInjector(pageContext);
-    AccountRepository repo = inj.getInstance(AccountRepository.class);
+    AccountDAO repo = inj.getInstance(AccountDAO.class);
     Account a = repo.getAccount(1000);
     String v = (a!=null) ? a.toString() : "empty";
 %>

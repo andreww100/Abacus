@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Entity(name = "Posting")
 public class PostingEntity implements Serializable {
     @Transient
-    private Logger log = LoggerFactory.getLogger(PostingEntity.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PostingEntity.class);
 
     @Id
     private long id;

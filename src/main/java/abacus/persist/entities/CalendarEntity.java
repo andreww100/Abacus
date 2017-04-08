@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,8 +17,11 @@ import java.util.Set;
 public class CalendarEntity {
 
     @Transient
-    private Logger log = LoggerFactory.getLogger(CalendarEntity.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CalendarEntity.class);
 
+    /**
+     * Four digit year the Calendar relates to
+     */
     @Id
     private int year;
 
@@ -43,39 +47,16 @@ public class CalendarEntity {
     }
 
     public boolean isHoliday(LocalDate date) {
-        assert(date != null);
+        assert (date != null);
         CalendarEvent event = this.holidayDates.stream().filter(e -> date.equals(e.getDate())).findFirst().orElse(null);
-        if (event != null)
-        {
-            log.info("found {}", event);
+        if (event != null) {
+            LOG.info("found {}", event);
         }
         return event != null;
     }
 
     public boolean isBizDate(LocalDate date) {
         return !isWeekend(date) && !isHoliday(date);
-    }
-
-    public LocalDate nextBizDate(LocalDate date) {
-        LocalDate proposal = date;
-
-        do {
-            proposal = proposal.plus(Period.ofDays(1));
-        }
-        while (!isBizDate(proposal));
-
-        return proposal;
-    }
-
-    public LocalDate prevBizDate(LocalDate date) {
-        LocalDate proposal = date;
-
-        do {
-            proposal = proposal.minus(Period.ofDays(1));
-        }
-        while (!isBizDate(proposal));
-
-        return proposal;
     }
 
     @Override

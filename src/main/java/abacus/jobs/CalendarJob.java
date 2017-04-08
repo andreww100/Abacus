@@ -27,7 +27,7 @@ public class CalendarJob {
         log.info(calendarEntity.toString());
 
         // Set the Current Business Date
-        LocalDate curBizDate = calendarEntity.isBizDate(today) ? today : calendarEntity.nextBizDate(today);
+        LocalDate curBizDate = calendarEntity.isBizDate(today) ? today : repo.getNextBizDate(today);
         repo.setCurBizDate(curBizDate);
     }
 

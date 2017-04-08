@@ -22,9 +22,9 @@ import java.util.List;
  * JPA objects cannot be passed out
  */
 //@RequestScoped
-public class PostingRepository {
+public class PostingDAO {
 
-    private Logger log = LoggerFactory.getLogger(PostingRepository.class);
+    private Logger log = LoggerFactory.getLogger(PostingDAO.class);
 
     @javax.inject.Inject
     private EntityManager em;
@@ -37,10 +37,10 @@ public class PostingRepository {
     private PostingMapper mapper;
 
     @javax.inject.Inject
-    private AccountRepository repoA;
+    private AccountDAO repoA;
 
 
-    public PostingRepository() {
+    public PostingDAO() {
         mapper = Mappers.getMapper(PostingMapper.class);
     }
 

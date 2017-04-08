@@ -12,6 +12,7 @@ import java.time.LocalDate;
  */
 public class BalancePK implements Serializable {
 
+
     /**
      * Account the BalanceResource is for.
      * NOTE: name of this field must exactly match that used in BalanceEntity
