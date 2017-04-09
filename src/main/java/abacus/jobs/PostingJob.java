@@ -6,8 +6,8 @@ import abacus.domain.money.Money;
 import abacus.domain.posting.Balance;
 import abacus.domain.posting.Posting;
 import abacus.persist.dao.AccountDAO;
-import abacus.persist.dao.BizDateDAO;
 import abacus.persist.dao.PostingDAO;
+import abacus.persist.dao.CurBizDateSingletonBean;
 import com.google.inject.persist.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public class PostingJob {
     @javax.inject.Inject
     private AccountDAO repoA;
     @javax.inject.Inject
-    private BizDateDAO repoBizDate;
+    private CurBizDateSingletonBean repoBizDate;
 
     @Transactional
     public void perform() {

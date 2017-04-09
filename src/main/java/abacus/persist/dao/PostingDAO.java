@@ -30,7 +30,7 @@ public class PostingDAO {
     private EntityManager em;
 
     @javax.inject.Inject
-    private BizDateDAO bizDateDAO;
+    private CurBizDateSingletonBean bizDateDAO;
 
 
     // MapStruct Mapper

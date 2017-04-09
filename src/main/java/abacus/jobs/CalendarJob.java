@@ -1,12 +1,13 @@
 package abacus.jobs;
 
-import abacus.persist.dao.BizDateDAO;
+import abacus.persist.dao.CalendarDAO;
 import abacus.persist.embeddables.CalendarEvent;
 import abacus.persist.entities.CalendarEntity;
-import com.google.inject.persist.Transactional;
+import abacus.persist.dao.CurBizDateSingletonBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,19 +17,22 @@ public class CalendarJob {
     private Logger log = LoggerFactory.getLogger(CalendarJob.class);
 
     @javax.inject.Inject
-    private BizDateDAO repo;
+    private CalendarDAO repo;
+
+    @Inject
+    private CurBizDateSingletonBean curBizDateSingletonBean;
 
     //@Transactional
     public void perform() {
         // Create a Calendar for this year
         LocalDate today = LocalDate.now();
         int year = today.getYear();
-        CalendarEntity calendarEntity = repo.createCalendar(year, getHolidays(year));
+        CalendarEntity calendarEntity = repo.createCalendarEntity(year, getHolidays(year));
         log.info(calendarEntity.toString());
 
         // Set the Current Business Date
         LocalDate curBizDate = calendarEntity.isBizDate(today) ? today : repo.getNextBizDate(today);
-        repo.setCurBizDate(curBizDate);
+        curBizDateSingletonBean.setCurBizDate(curBizDate);
     }
 
     public List<CalendarEvent> getHolidays(int year) {

@@ -1,8 +1,6 @@
 package abacus.jobs;
 
-import abacus.persist.dao.BizDateDAO;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

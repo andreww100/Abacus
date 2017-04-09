@@ -12,7 +12,7 @@ class CmdInitializer {
 
     /**
      * Called once the CmdModule has loaded.
-     * Start the JPA service
+     * Start the JPA singletons
      *
      * @param service start JPA
      */
